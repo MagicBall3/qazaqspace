@@ -91,10 +91,9 @@ export function homeView() {
         <section class="hero">
           <div class="hero-orbit" aria-hidden="true"></div>
           <span class="hero-badge">${icon('globe')} 5–7 сынып · қазақ тілі</span>
-          <h1>Қазақ тілін бірге сөйлейік</h1>
+          <h1>Қазақ тілінде бірге сөйлейік</h1>
           <p class="lead">
             QAZAQ SPACE — сөз жаттауға ғана емес, нақты өмірде қазақша сөйлеуге арналған оқу кеңістігі.
-            Мұнда диалог, ойын, ЖИ-көмекші, ұлттық мәдениет және шығармашылық бір жерде.
           </p>
           <div class="hero-actions">
             ${nextLesson
