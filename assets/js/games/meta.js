@@ -63,6 +63,16 @@ export const GAME_META = [
     level: false
   },
   {
+    id: 'finderror',
+    titleKz: 'Қатені тап',
+    titleRu: 'Найди ошибку',
+    icon: 'edit',
+    description: 'Сөйлемдегі қатені тауып, дұрыс нұсқасын таңда. 10 сұрақ.',
+    instruction: 'Әр сөйлемді оқып, қате бар-жоғын анықтаңыз. Қате болса дұрыс нұсқасын таңдаңыз. +10 ұпай.',
+    max: 100,
+    level: true
+  },
+  {
     id: 'marathon',
     titleKz: 'Тіл марафоны',
     titleRu: 'Языковой марафон',
