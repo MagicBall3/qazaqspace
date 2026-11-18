@@ -9,8 +9,8 @@ import { gameHud, gameResult } from './shared.js';
 
 const WORD_LENGTH = 5;
 const MAX_ATTEMPTS = 6;
-const KZ_ALPHABET = 'АӘБВГҒДЕЁЖЗИЙКҚЛМНҢОӨПРСТУҰҮФХҺЦЧШЩЪЫІЬЭЮЯ'.split('');
-const RU_ALPHABET = 'АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ'.split('');
+const KZ_ALPHABET = ['Й','Ц','У','К','Е','Н','Г','Ш','Щ','З','Х','Ъ','Ә','Ф','Ы','В','А','П','Р','О','Л','Д','Ж','Э','Ғ','Қ','Я','Ч','С','М','И','Т','Ь','Б','Ю','Ң','Ө','Ұ','Ү','Һ','І'];
+const RU_ALPHABET = ['Й','Ц','У','К','Е','Н','Г','Ш','Щ','З','Х','Ъ','Ф','Ы','В','А','П','Р','О','Л','Д','Ж','Э','Я','Ч','С','М','И','Т','Ь','Б','Ю'];
 
 /* ------------------------------------------------------------------ */
 /* Утилиты Unicode                                                    */
@@ -79,6 +79,42 @@ function getWordPool(lang) {
     }
     return unique;
   }
+}
+
+// Допустимые слова для ввода (отдельно от загадываемых)
+const ALLOWED_GUESSES_KZ = new Set();
+const ALLOWED_GUESSES_RU = new Set();
+
+function buildAllowedGuesses() {
+  // Все 5-буквенные слова из словаря
+  const words = data.words || [];
+  for (const w of words) {
+    const kz = (w.kazakh || '').trim().toUpperCase();
+    if ([...kz].length === WORD_LENGTH && !kz.includes(' ')) {
+      ALLOWED_GUESSES_KZ.add(kz);
+    }
+    const ruParts = (w.russian || '').split(',');
+    for (const part of ruParts) {
+      const ru = part.trim().split(';')[0].trim().toUpperCase();
+      if ([...ru].length === WORD_LENGTH && !ru.includes(' ')) {
+        ALLOWED_GUESSES_RU.add(ru);
+      }
+    }
+  }
+  // Дополнительные частотные слова
+  const extraKz = ['ҚОҚЫС'];
+  const extraRu = ['МУСОР', 'СТОЛБ', 'СТУЛ', 'СТУЛЫ', 'СТУЛОМ'];
+  for (const w of extraKz) ALLOWED_GUESSES_KZ.add(w);
+  for (const w of extraRu) ALLOWED_GUESSES_RU.add(w);
+}
+
+function isAllowedGuess(word, lang) {
+  if (!ALLOWED_GUESSES_KZ.size || !ALLOWED_GUESSES_RU.size) {
+    buildAllowedGuesses();
+  }
+  const normalized = (word || '').trim().toUpperCase();
+  if (lang === 'kz') return ALLOWED_GUESSES_KZ.has(normalized);
+  return ALLOWED_GUESSES_RU.has(normalized);
 }
 
 function getWordInfo(word, lang) {
@@ -407,8 +443,7 @@ export function render() {
             toast('5 әріп енгізіңіз', 'warn');
             return;
           }
-          const pool = getWordPool(state.lang);
-          if (!pool.includes(state.current.toUpperCase())) {
+          if (!isAllowedGuess(state.current, state.lang)) {
             toast('Бұл сөз тізімде жоқ', 'warn');
             return;
           }
