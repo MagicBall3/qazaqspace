@@ -1111,3 +1111,43 @@ select option { background: var(--surface-solid); color: var(--text); }
   .chat-window { max-height: 40vh; }
   .msg { max-width: 92%; }
 }
+
+
+/* QAZAQ WORD -------------------------------------------------------------- */
+.qw-header { margin-bottom: 14px; }
+.qw-controls { margin-bottom: 14px; }
+.qw-grid { display: flex; flex-direction: column; gap: 6px; margin: 14px 0; max-width: 340px; margin-left: auto; margin-right: auto; }
+.qw-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
+.qw-cell {
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  font-size: 1.4rem;
+  font-weight: 800;
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  text-transform: uppercase;
+  transition: background .2s ease, border-color .2s ease;
+}
+.qw-keyboard { margin-top: 14px; }
+.qw-keyboard-row { display: flex; justify-content: center; gap: 4px; margin-bottom: 4px; }
+.qw-key {
+  min-width: 34px;
+  height: 44px;
+  padding: 0 6px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  font-weight: 700;
+  font-size: .85rem;
+  text-transform: uppercase;
+  transition: background .15s ease, border-color .15s ease;
+}
+.qw-key:hover { background: var(--surface-strong); }
+.qw-key-wide { min-width: 52px; font-size: .75rem; }
+@media (max-width: 400px) {
+  .qw-cell { font-size: 1.1rem; }
+  .qw-key { min-width: 28px; height: 40px; font-size: .75rem; }
+  .qw-key-wide { min-width: 42px; }
+}

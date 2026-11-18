@@ -73,6 +73,16 @@ export const GAME_META = [
     level: true
   },
   {
+    id: 'qazaqword',
+    titleKz: 'QAZAQ WORD',
+    titleRu: 'QAZAQ WORD',
+    icon: 'cards',
+    description: '5 әріпті сөзді 6 әрекетте тап. Казахский и русский языки.',
+    instruction: '5 әріпті сөзді табыңыз. 6 әрекет бар. Жасыл — дұрыс орын, сары — сөзде бар, сұр — сөзде жоқ.',
+    max: 6,
+    level: false
+  },
+  {
     id: 'marathon',
     titleKz: 'Тіл марафоны',
     titleRu: 'Языковой марафон',

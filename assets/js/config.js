@@ -31,7 +31,7 @@ export const LEVEL_LABELS_RU = {
   3: '7 класс'
 };
 
-export const GAME_IDS = ['wordquiz', 'sentence', 'match', 'proverbs', 'quiz', 'quest', 'marathon', 'finderror'];
+export const GAME_IDS = ['wordquiz', 'sentence', 'match', 'proverbs', 'quiz', 'quest', 'marathon', 'finderror', 'qazaqword'];
 
 export const GAME_LEVELS = [
   { value: 0, label: 'Барлығы' },

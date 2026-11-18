@@ -13,8 +13,9 @@ import * as quiz from '../games/quiz.js';
 import * as quest from '../games/quest.js';
 import * as marathon from '../games/marathon.js';
 import * as finderror from '../games/finderror.js';
+import * as qazaqword from '../games/qazaqword.js';
 
-const ENGINES = { wordquiz, sentence, match, proverbs, quiz, quest, marathon, finderror };
+const ENGINES = { wordquiz, sentence, match, proverbs, quiz, quest, marathon, finderror, qazaqword };
 
 function levelTag(level) {
   return `<span class="tag">${level === 1 ? '5 сынып' : level === 2 ? '6 сынып' : '7 сынып'}</span>`;
