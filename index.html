@@ -1,158 +1,161 @@
 <!DOCTYPE html>
-<html lang="ru" data-theme="dark">
+<html lang="kk" data-theme="dark">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>QAZAQ SPACE</title>
-<style>
-:root{--bg:#0a1120;--card:rgba(255,255,255,.06);--bd:rgba(255,255,255,.11);--tx:#e8eefc;--mut:#94a3c4;--ac:#2dd4bf;--ac2:#38bdf8;--ok:#34d399;--er:#fb7185;--nav:rgba(12,20,38,.88);box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-:root[data-theme=light]{--bg:#eef4fb;--card:rgba(255,255,255,.85);--bd:rgba(15,40,80,.12);--tx:#0f2038;--mut:#51617e;--ac:#0d9488;--ac2:#0284c7;--nav:rgba(255,255,255,.92);color-scheme:light}
-:root[data-theme=dark]{color-scheme:dark}
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html{scroll-padding-top:env(safe-area-inset-top,0px)}
-body{margin:0;min-height:100%;font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--tx);background:radial-gradient(900px 500px at 85% -10%,rgba(56,189,248,.18),transparent),radial-gradient(700px 500px at -10% 30%,rgba(45,212,191,.12),transparent),var(--bg);background-attachment:fixed}
-body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:10}
-button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
-.app{display:flex;min-height:100vh}
-aside{width:250px;padding:20px 14px;position:sticky;top:env(safe-area-inset-top,0px);height:100vh;border-right:1px solid var(--bd);display:flex;flex-direction:column;gap:6px}
-.logo{font-weight:800;letter-spacing:.14em;font-size:15px}.logo b{color:var(--ac)}
-aside .logo{padding:6px 12px 18px;cursor:pointer}
-.ni{display:flex;align-items:center;gap:12px;padding:11px 14px;border-radius:14px;color:var(--mut);text-align:left;transition:.2s}
-.ni:hover{background:var(--card)}.ni.on{background:linear-gradient(90deg,rgba(45,212,191,.2),rgba(56,189,248,.12));color:var(--tx)}
-.ni i{font-style:normal;width:26px;height:26px;display:grid;place-items:center;border-radius:8px;background:var(--card);font-size:14px}
-.col{flex:1;min-width:0}
-header{display:flex;justify-content:space-between;align-items:center;padding:12px 18px;position:sticky;top:env(safe-area-inset-top,0px);z-index:5;backdrop-filter:blur(12px);background:color-mix(in srgb,var(--bg) 70%,transparent)}
-header .logo{display:none}
-.tb{width:42px;height:42px;border-radius:50%;background:var(--card);border:1px solid var(--bd);font-size:18px}
-main{max-width:920px;margin:0 auto;padding:6px 18px 40px}
-nav#bn{display:none}
-.fade{animation:fd .35s ease}@keyframes fd{from{opacity:0;transform:translateY(10px)}to{opacity:1}}
-h1{font-size:clamp(26px,6vw,38px);margin:.3em 0;line-height:1.15}h2{font-size:24px;margin:.4em 0}h3{margin:1.2em 0 .5em;font-size:17px}
-.mut,small{color:var(--mut)}
-.card{background:var(--card);border:1px solid var(--bd);border-radius:20px;padding:18px;backdrop-filter:blur(10px);margin-bottom:12px}
-.hero{position:relative;overflow:hidden;padding:26px 22px;background:linear-gradient(135deg,rgba(45,212,191,.18),rgba(56,189,248,.08) 60%,transparent),var(--card)}
-.orb{position:absolute;right:-50px;top:-50px;width:200px;height:200px;border-radius:50%;border:1px dashed var(--bd);animation:sp 30s linear infinite}
-.orb::after{content:"";position:absolute;left:50%;top:-6px;width:12px;height:12px;border-radius:50%;background:var(--ac);box-shadow:0 0 18px var(--ac)}
-@keyframes sp{to{transform:rotate(360deg)}}
-.slog{color:var(--ac);font-weight:600;margin:6px 0 0}
-.grid4,.grid3,.grid2{display:grid;gap:12px;margin-bottom:12px}
-.grid4{grid-template-columns:repeat(4,1fr)}.grid3{grid-template-columns:repeat(3,1fr)}.grid2{grid-template-columns:repeat(2,1fr)}
-.cat{display:flex;flex-direction:column;gap:4px;text-align:left;margin:0;transition:.2s}.cat:hover{transform:translateY(-3px);border-color:var(--ac)}
-.ic{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;background:linear-gradient(135deg,var(--ac),var(--ac2));color:#06202a;font-weight:800;font-size:15px;margin-bottom:6px}
-.btn{background:linear-gradient(135deg,var(--ac),var(--ac2));color:#05202b;font-weight:700;padding:12px 20px;border-radius:14px;transition:.2s}.btn:active{transform:scale(.97)}
-.btn.g{background:var(--card);color:var(--tx);border:1px solid var(--bd)}
-.bar{height:10px;border-radius:9px;background:var(--bd);overflow:hidden;margin:10px 0}.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--ac),var(--ac2));transition:width .6s}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;text-align:center}.stats b{display:block;font-size:24px;color:var(--ac)}
-.row{display:flex;align-items:center;gap:14px;width:100%;text-align:left}.row>span:nth-child(2){flex:1}
-.num{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;background:var(--bd);font-weight:700}
-.tag{font-size:12px;padding:3px 10px;border-radius:20px;background:var(--bd);color:var(--mut);display:inline-block}.tag.ok{background:rgba(52,211,153,.2);color:var(--ok)}
-.back{color:var(--ac);padding:8px 0}
-.w{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--bd)}.w:last-child{border:0}.w b{color:var(--ac)}
-.opt{display:block;width:100%;text-align:left;padding:13px 16px;margin:8px 0;border-radius:14px;background:var(--card);border:1px solid var(--bd);transition:.2s}.opt:hover{border-color:var(--ac)}
-.opt.ok{background:rgba(52,211,153,.2);border-color:var(--ok)}.opt.bad{background:rgba(251,113,133,.18);border-color:var(--er)}
-.fb{min-height:24px;margin:8px 0;font-weight:600}.fb.ok{color:var(--ok)}.fb.bad{color:var(--er)}
-.bigw{font-size:38px;font-weight:800;text-align:center;color:var(--ac);padding:18px 0}
-.line{min-height:62px;display:flex;flex-wrap:wrap;gap:8px;padding:12px;border-radius:14px;border:1px dashed var(--ac);margin:10px 0;align-items:center}
-.chip{padding:9px 14px;border-radius:12px;background:var(--card);border:1px solid var(--bd);transition:.2s}.chip.on,.chip:hover{border-color:var(--ac);color:var(--ac)}
-.chips{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
-.shake{animation:sh .35s}@keyframes sh{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
-.demo{padding:10px 14px;border-radius:14px;background:rgba(251,191,36,.14);border:1px solid rgba(251,191,36,.4);font-size:14px;margin-bottom:10px}
-.chat{max-height:48vh;min-height:200px;overflow:auto;display:flex;flex-direction:column;gap:10px;padding:4px}
-.msg{max-width:85%;padding:11px 15px;border-radius:18px;background:var(--card);border:1px solid var(--bd);animation:fd .3s}.msg.me{align-self:flex-end;background:linear-gradient(135deg,var(--ac),var(--ac2));color:#05202b;border:0}
-.typing{display:flex;gap:5px;width:64px}.typing i{width:8px;height:8px;border-radius:50%;background:var(--mut);animation:bn 1s infinite}.typing i:nth-child(2){animation-delay:.15s}.typing i:nth-child(3){animation-delay:.3s}@keyframes bn{50%{transform:translateY(-6px)}}
-.send{display:flex;gap:8px}.send input,textarea{flex:1;width:100%;padding:13px 15px;border-radius:14px;border:1px solid var(--bd);background:var(--card);color:var(--tx);font:inherit}
-textarea{min-height:130px;resize:vertical;margin-bottom:8px}
-.al{display:grid;grid-template-columns:repeat(auto-fill,minmax(54px,1fr));gap:8px}.al span{padding:12px 0;text-align:center;border-radius:12px;background:var(--card);border:1px solid var(--bd);font-weight:700}.al .sp{background:rgba(45,212,191,.2);border-color:var(--ac);color:var(--ac)}
-.empty{text-align:center;color:var(--mut);padding:26px}
-#toast{position:fixed;left:50%;bottom:90px;transform:translate(-50%,30px);background:var(--ok);color:#05261a;padding:11px 20px;border-radius:30px;font-weight:700;opacity:0;pointer-events:none;transition:.35s;z-index:30;max-width:90%;text-align:center}#toast.show{opacity:1;transform:translate(-50%,0)}
-@media(max-width:820px){aside{display:none}header .logo{display:block}main{padding:4px 14px 110px}.grid4{grid-template-columns:repeat(2,1fr)}.grid3{grid-template-columns:repeat(2,1fr)}.grid2{grid-template-columns:1fr}
-nav#bn{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:20;background:var(--nav);backdrop-filter:blur(16px);border-top:1px solid var(--bd);padding:6px 4px calc(6px + env(safe-area-inset-bottom,0px))}
-nav#bn button{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:10.5px;color:var(--mut);padding:5px 0}nav#bn button i{font-style:normal;font-size:18px}nav#bn .on{color:var(--ac)}#toast{bottom:100px}}
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="dark light">
+  <meta name="theme-color" content="#070d1a">
+  <meta name="description" content="QAZAQ SPACE — оқушыларға арналған қазақ тілін үйрену платформасы: сөйлеу практикасы, ойындар, ЖИ-көмекші, ұлттық мәдениет және медиа-шығармашылық.">
+  <title>QAZAQ SPACE — Тіл. Ойын. ЖИ. Шығармашылық.</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%23070d1a'/%3E%3Ccircle cx='16' cy='16' r='8' fill='none' stroke='%232dd4bf' stroke-width='2'/%3E%3Ccircle cx='16' cy='8' r='2.4' fill='%2338bdf8'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/components.css">
+  <script>
+    // Тема до первой отрисовки — без «вспышки» светлого экрана
+    (function () {
+      try {
+        var raw = localStorage.getItem('qazaqspace.v2');
+        var theme = raw ? (JSON.parse(raw).theme || '') : '';
+        if (!theme) {
+          theme = 'dark';
+        }
+        document.documentElement.dataset.theme = theme;
+      } catch (e) { /* localStorage может быть недоступен */ }
+    })();
+    // ES-модули и fetch не работают по file:// — предупреждаем до запуска приложения
+    window.addEventListener('DOMContentLoaded', function () {
+      if (location.protocol === 'file:') {
+        var box = document.getElementById('fileWarning');
+        if (box) box.hidden = false;
+      }
+    });
+  </script>
 </head>
 <body>
-<div class="app"><aside id="side"></aside><div class="col"><header><span class="logo" onclick="go('home')">QAZAQ <b>SPACE</b></span><button class="tb" id="tb" onclick="theme()" aria-label="Тема"></button></header><main id="v"></main></div></div>
-<nav id="bn"></nav><div id="toast"></div>
-<script>
-const $=s=>document.querySelector(s);
-const shuf=a=>a.map(x=>[Math.random(),x]).sort((p,q)=>p[0]-q[0]).map(x=>x[1]);
-const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-const DEF={l:[],p:0,g:[],c:[],th:''};
-let S;try{S=Object.assign({},DEF,JSON.parse(localStorage.getItem('qs')||'{}'))}catch(e){S=Object.assign({},DEF)}
-const save=()=>{try{localStorage.setItem('qs',JSON.stringify(S))}catch(e){}};
-if(!S.th)S.th=matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';
-const L=[
-{cat:'Приветствия',kk:'Сәлемдесу',ru:'Приветствия и знакомство',w:[['сәлем','привет'],['сәлеметсіз бе','здравствуйте'],['қайырлы таң','доброе утро'],['менің атым…','меня зовут…'],['сау бол','до свидания']],ex:[['Сәлем! Менің атым Анна.','Привет! Меня зовут Анна.'],['Қайырлы таң, мұғалім!','Доброе утро, учитель!']],q:['Как переводится «қайырлы таң»?','доброе утро','до свидания','спасибо']},
-{cat:'Числа',kk:'Сандар',ru:'Числа от 1 до 5',w:[['бір','один'],['екі','два'],['үш','три'],['төрт','четыре'],['бес','пять']],ex:[['Менде екі кітап бар.','У меня две книги.'],['Сыныпта бес оқушы бар.','В классе пять учеников.']],q:['Что означает «үш»?','три','пять','два']},
-{cat:'Семья',kk:'Менің отбасым',ru:'Моя семья',w:[['отбасы','семья'],['ана','мама'],['әке','папа'],['аға','старший брат'],['әже','бабушка']],ex:[['Менің әкем мұғалім.','Мой папа учитель.'],['Бұл — менің анам.','Это моя мама.']],q:['Как переводится «әже»?','бабушка','папа','семья']}];
-const D=[['сәлем','привет','daily'],['рахмет','спасибо','daily'],['су','вода','daily'],['нан','хлеб','daily'],['үй','дом','daily'],['дос','друг','daily'],['кітап','книга','school'],['мектеп','школа','school'],['сынып','класс','school'],['мұғалім','учитель','school'],['оқушы','ученик','school'],['қалам','ручка','school']];
-const ALL=D.map(x=>[x[0],x[1]]).concat(...L.map(l=>l.w)).filter(w=>!/[…\s]/.test(w[0]));
-const EXS=[].concat(...L.map(l=>l.ex),[['Менің досым — Айдар.','Мой друг — Айдар.'],['Мен мектепке барамын.','Я иду в школу.']]);
-const SENT=[[['Мен','мектепке','барамын'],'Я иду в школу'],[['Менің','атым','Анна'],'Меня зовут Анна'],[['Бұл','менің','кітабым'],'Это моя книга'],[['Сыныпта','бес','оқушы','бар'],'В классе пять учеников']];
-const CR=[{t:'Өзім туралы',d:'Напишите минимум 3 предложения о себе: как вас зовут, сколько вам лет. Подсказка: «Менің атым…».',m:3},{t:'Менің отбасым',d:'Опишите свою семью 4 предложениями. Подсказка: ана, әке, аға, әже.',m:4},{t:'Суретті сипатта',d:'Представьте: в классе урок, учитель стоит у доски, пять учеников сидят за партами. Опишите ситуацию (3 предложения).',m:3},{t:'Жоба: Менің сыныбым',d:'Мини-проект: напишите рассказ о своём классе — 5 предложений на казахском.',m:5}];
-const NAV=[['home','Басты бет','⌂'],['lang','Тіл әлемі','Ә'],['games','Ойын алаңы','◈'],['ai','AI көмекші','✦'],['cr','Шығармашылық','✎']];
-let V='home',A,Q=[],F,B,M=[['bot','Сәлем! 👋 Я <b>демо-помощник</b> QAZAQ SPACE. Могу объяснить слово, перевести простое предложение, исправить типичную ошибку или привести пример. Выберите вопрос ниже или напишите свой.']],busy=false,CT=0,rst=false;
-const pct=()=>Math.round((S.l.length/3+S.g.length/2+S.c.length/4)/3*100);
-function toast(t){const e=$('#toast');e.textContent=t;e.classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(()=>e.classList.remove('show'),2300)}
-function theme(){S.th=S.th==='dark'?'light':'dark';save();applyTh()}
-function applyTh(){document.documentElement.dataset.theme=S.th;$('#tb').textContent=S.th==='dark'?'☀':'☾'}
-function go(v,a){V=v;A=a;render(1);scrollTo(0,0)}
-function render(an){$('#v').innerHTML=`<div class="${an?'fade':''}">${VIEWS[V](A)}</div>`;const k=V==='alpha'||V==='vocab'||V==='lesson'?'lang':V==='gf'||V==='gb'?'games':V;document.querySelectorAll('[data-k]').forEach(b=>b.classList.toggle('on',b.dataset.k===k));if(V==='ai'){const c=$('#chat');c.scrollTop=c.scrollHeight}}
-function pts(n){S.p+=n;save()}
-const VIEWS={
-home(){const n=L.findIndex((x,i)=>!S.l.includes(i)),p=pct();
-return `<section class="card hero"><div class="orb"></div><div class="logo">QAZAQ <b>SPACE</b></div><p class="slog">Тіл. Ойын. ЖИ. Шығармашылық.</p><h1>Сәлем, оқушы! 👋</h1><p class="mut">Авторлық педагогикалық модель. Инновационное пространство для изучения казахского языка представителями других национальностей: уроки, игры, ИИ-помощник и творчество в одном месте.</p></section>
-<div class="grid4">${[['lang','ТІЛ','Уроки казахского','Ә'],['games','ОЙЫН','Игры и баллы','◈'],['ai','ЖИ','AI-помощник','✦'],['cr','ШЫҒАРМАШЫЛЫҚ','Творческие задания','✎']].map(c=>`<button class="card cat" onclick="go('${c[0]}')"><span class="ic">${c[3]}</span><b>${c[1]}</b><small>${c[2]}</small></button>`).join('')}</div>
-<div class="card"><small>Продолжить обучение</small>${n>=0?`<h3 style="margin:.3em 0">Урок ${n+1}: ${L[n].kk}</h3><p class="mut" style="margin:0 0 12px">${L[n].ru}</p><button class="btn" onclick="go('lesson',${n})">Продолжить →</button>`:`<h3 style="margin:.3em 0">Все демо-уроки пройдены 🎉</h3><button class="btn" onclick="go('games')">Закрепить в играх →</button>`}</div>
-<div class="card"><b>Ваш прогресс — ${p}%</b><div class="bar"><i style="width:${p}%"></i></div><div class="stats"><div><b>${S.l.length}/3</b><small>уроков</small></div><div><b>${S.p}</b><small>баллов</small></div><div><b>${S.g.length}/2</b><small>игр пройдено</small></div></div></div>
-<div class="chips"><button class="chip" onclick="go('lang')">Уроки</button><button class="chip" onclick="go('games')">Играть</button><button class="chip" onclick="go('ai')">Спросить помощника</button><button class="chip" onclick="reset()">${rst?'Нажмите ещё раз для сброса':'Сбросить прогресс'}</button></div>
-<p class="mut" style="font-size:13px">Материалы демонстрационные и не являются утверждённой педагогической программой.</p>`},
-lang(){const C=[['Алфавит','А',"go('alpha')"],['Базовая лексика','Сөз',"go('vocab')"],['Приветствия','👋',"go('lesson',0)"],['Числа','123',"go('lesson',1)"],['Семья','♥',"go('lesson',2)"],['Школа','✎',"go('vocab','school')"],['Повседневное общение','☺',"go('vocab','daily')"]];
-return `<h2>Тіл әлемі</h2><p class="mut">Выберите тему или начните с урока.</p><div class="grid3">${C.map(c=>`<button class="card cat" onclick="${c[2]}"><span class="ic">${c[1]}</span><b>${c[0]}</b></button>`).join('')}</div><h3>Демо-уроки</h3>${L.map((l,i)=>{const d=S.l.includes(i);return `<button class="card row" onclick="go('lesson',${i})"><span class="num">${i+1}</span><span><b>${l.kk}</b><br><small>${l.ru}</small></span><span class="tag ${d?'ok':''}">${d?'Пройден':'Новый'}</span></button>`}).join('')}`},
-alpha(){const a='А Ә Б В Г Ғ Д Е Ё Ж З И Й К Қ Л М Н Ң О Ө П Р С Т У Ұ Ү Ф Х Һ Ц Ч Ш Щ Ъ Ы І Ь Э Ю Я'.split(' ');
-return `<button class="back" onclick="go('lang')">← Тіл әлемі</button><h2>Қазақ әліпбиі</h2><p class="mut">42 буквы. Выделены 9 специфических букв казахского языка.</p><div class="al">${a.map(c=>`<span class="${'ӘҒҚҢӨҰҮҺІ'.includes(c)?'sp':''}">${c}</span>`).join('')}</div>`},
-vocab(g){const w=g?D.filter(x=>x[2]===g):ALL;return `<button class="back" onclick="go('lang')">← Тіл әлемі</button><h2>${g==='school'?'Мектеп · Школа':g==='daily'?'Күнделікті сөздер · Повседневное':'Негізгі сөздер · Базовая лексика'}</h2><div class="card">${w.map(x=>`<div class="w"><b>${x[0]}</b><span>${x[1]}</span></div>`).join('')}</div>`},
-lesson(i){const l=L[i];Q=shuf([l.q[1],l.q[2],l.q[3]]);
-return `<button class="back" onclick="go('lang')">← К урокам</button><div class="card"><span class="tag">Урок ${i+1} · ${l.cat}</span><h2>${l.kk}</h2><p class="mut" style="margin:0">${l.ru}</p></div><h3>Жаңа сөздер · Новые слова</h3><div class="card">${l.w.map(x=>`<div class="w"><b>${x[0]}</b><span>${x[1]}</span></div>`).join('')}</div><h3>Мысалдар · Примеры</h3><div class="card">${l.ex.map(x=>`<p style="margin:6px 0"><b>${x[0]}</b><br><small>${x[1]}</small></p>`).join('')}</div><h3>Практика</h3><div class="card"><b>${l.q[0]}</b>${Q.map((o,k)=>`<button class="opt" id="o${k}" onclick="lq(${i},${k})">${o}</button>`).join('')}<div id="fb" class="fb"></div></div><button class="btn" onclick="${i<2?`go('lesson',${i+1})`:`go('lang')`}">${i<2?'Следующий урок →':'К списку тем'}</button>`},
-games(){return `<h2>Ойын алаңы</h2><p class="mut">Ваши баллы: <b>${S.p}</b></p><div class="grid2"><div class="card"><span class="ic">?</span><h3 style="margin:.2em 0">Сөзді тап</h3><p class="mut">Выберите верный перевод казахского слова. 5 раундов, +5 баллов за ответ.</p><span class="tag ${S.g.includes('find')?'ok':''}">${S.g.includes('find')?'Пройдена':'Не пройдена'}</span><p><button class="btn" onclick="fStart()">Играть</button></p></div><div class="card"><span class="ic">≡</span><h3 style="margin:.2em 0">Сөйлем құрастыр</h3><p class="mut">Составьте предложение из слов. 4 раунда, +10 баллов за предложение.</p><span class="tag ${S.g.includes('build')?'ok':''}">${S.g.includes('build')?'Пройдена':'Не пройдена'}</span><p><button class="btn" onclick="bStart()">Играть</button></p></div></div>`},
-gf(){if(F.i>=5)return `<div class="card empty"><h2>Нәтиже · Результат</h2><p style="font-size:22px;color:var(--ok)"><b>${F.sc}</b> из 25 баллов</p><button class="btn" onclick="fStart()">Играть снова</button> <button class="btn g" onclick="go('games')">К играм</button></div>`;
-const r=F.q[F.i];return `<button class="back" onclick="go('games')">← К играм</button><div class="card"><small>Раунд ${F.i+1}/5 · очки: ${F.sc}</small><div class="bar"><i style="width:${F.i*20}%"></i></div><div class="bigw">${r.w}</div>${r.o.map((o,k)=>`<button class="opt ${F.s!=null?(o===r.a?'ok':k===F.s?'bad':''):''}" onclick="fA(${k})">${o}</button>`).join('')}<div class="fb ${F.s!=null&&r.o[F.s]===r.a?'ok':'bad'}">${F.s==null?'':r.o[F.s]===r.a?'Дұрыс! Верно, +5':'Қате. Правильно: '+r.a}</div>${F.s!=null?`<button class="btn" onclick="fN()">${F.i<4?'Далее →':'Результат'}</button>`:''}</div>`},
-gb(){if(B.i>=4)return `<div class="card empty"><h2>Нәтиже · Результат</h2><p style="font-size:22px;color:var(--ok)"><b>${B.sc}</b> из 40 баллов</p><button class="btn" onclick="bStart()">Играть снова</button> <button class="btn g" onclick="go('games')">К играм</button></div>`;
-return `<button class="back" onclick="go('games')">← К играм</button><div class="card"><small>Раунд ${B.i+1}/4 · очки: ${B.sc}</small><div class="bar"><i style="width:${B.i*25}%"></i></div><p>Составьте: <b>«${B.q[B.i][1]}»</b></p><div class="line ${B.sh?'shake':''}">${B.a.length?B.a.map((w,k)=>`<button class="chip on" onclick="bT(1,${k})">${w}</button>`).join(''):'<small>Нажимайте на слова ниже</small>'}</div><div class="chips">${B.p.map((w,k)=>`<button class="chip" onclick="bT(0,${k})">${w}</button>`).join('')}</div><div class="fb ${B.ok?'ok':'bad'}">${B.f}</div>${B.ok?`<button class="btn" onclick="bN()">${B.i<3?'Далее →':'Результат'}</button>`:`<button class="btn" onclick="bC()">Проверить</button> <button class="btn g" onclick="bR()">Сначала</button>`}</div>`},
-ai(){return `<h2>AI көмекші</h2><div class="demo">⚠ Демонстрационный режим: это не настоящий подключённый ИИ. Ответы берутся из заранее подготовленных сценариев.</div><div class="card"><div class="chat" id="chat">${M.map(m=>`<div class="msg ${m[0]}">${m[1]}</div>`).join('')}${busy?'<div class="msg typing"><i></i><i></i><i></i></div>':''}</div></div><div class="chips">${EXQ.map((q,k)=>`<button class="chip" onclick="ask(${k})">${q}</button>`).join('')}</div><div class="send"><input id="inp" placeholder="Напишите вопрос…" onkeydown="if(event.key==='Enter')snd()"><button class="btn" onclick="snd()" aria-label="Отправить">➤</button></div>`},
-cr(){const t=CR[CT],sv=S.c.find(x=>x.k===CT);
-return `<h2>Шығармашылық</h2><div class="chips">${CR.map((x,k)=>`<button class="chip ${k===CT?'on':''}" onclick="CT=${k};render(1)">${k+1}. ${x.t}</button>`).join('')}</div><div class="card"><h3 style="margin-top:0">${t.t}</h3><p class="mut">${t.d}</p><textarea id="ta" placeholder="Жазыңыз…">${sv?esc(sv.x):''}</textarea><div class="chips">${[...'әғқңөұүһі'].map(c=>`<button class="chip" onclick="ins('${c}')">${c}</button>`).join('')}</div><button class="btn" onclick="crC()">Проверить и сохранить</button><div id="fb" class="fb"></div></div><h3>Сохранённые работы</h3>${S.c.length?S.c.map(x=>`<div class="card"><b>${CR[x.k].t}</b><p class="mut" style="margin:6px 0 0;white-space:pre-wrap">${esc(x.x)}</p></div>`).join(''):'<div class="card empty">Пока нет работ. Выполните задание, и оно появится здесь.</div>'}`}};
-function lq(i,k){const l=L[i],ok=Q[k]===l.q[1];Q.forEach((o,j)=>$('#o'+j).classList.toggle('ok',o===l.q[1]&&(ok||j===k)));if(!ok){$('#o'+k).classList.add('bad');$('#fb').className='fb bad';$('#fb').textContent='Қате. Попробуйте ещё раз.';return}
-$('#fb').className='fb ok';if(!S.l.includes(i)){S.l.push(i);pts(10);toast('Урок пройден! +10 баллов ✓');$('#fb').textContent='Дұрыс! Урок завершён, +10 баллов.'}else $('#fb').textContent='Дұрыс! Верно (урок уже засчитан).'}
-function fStart(){F={q:shuf(ALL).slice(0,5).map(w=>({w:w[0],a:w[1],o:shuf([w[1]].concat(shuf(ALL.filter(x=>x[1]!==w[1])).slice(0,3).map(x=>x[1])))})),i:0,sc:0,s:null};go('gf')}
-function fA(k){if(F.s!=null)return;F.s=k;if(F.q[F.i].o[k]===F.q[F.i].a){F.sc+=5;pts(5)}render()}
-function fN(){F.i++;F.s=null;if(F.i>=5){if(!S.g.includes('find'))S.g.push('find');save();toast('Игра пройдена: '+F.sc+' баллов')}render(1)}
-function bStart(){B={q:shuf(SENT),i:0,sc:0};bSet();go('gb')}
-function bSet(){B.p=shuf(B.q[B.i][0].slice());B.a=[];B.f='';B.ok=false;B.sh=false}
-function bT(x,k){if(B.ok)return;B.f='';B.sh=false;if(x)B.p.push(B.a.splice(k,1)[0]);else B.a.push(B.p.splice(k,1)[0]);render()}
-function bR(){bSet();render()}
-function bC(){if(B.a.join(' ')===B.q[B.i][0].join(' ')){B.ok=true;B.sc+=10;pts(10);B.f='Дұрыс! Верно, +10';B.sh=false}else{B.f=B.a.length?'Қате. Проверьте порядок слов.':'Сначала составьте предложение.';B.sh=true}render()}
-function bN(){B.i++;if(B.i>=4){if(!S.g.includes('build'))S.g.push('build');save();toast('Игра пройдена: '+B.sc+' баллов')}else bSet();render(1)}
-const EXQ=['Что значит «кітап»?','Переведи: Мен мектепке барамын','Исправь: Мен мектеп барамын','Приведи пример со словом «дос»'];
-const TR={'мен мектепке барамын':'Я иду в школу','менің атым анна':'Меня зовут Анна','мен кітап оқимын':'Я читаю книгу','қайырлы таң':'Доброе утро'};
-const FIX={'мен мектеп барамын':['Мен мектепке барамын','к слову нужно добавить окончание направления -ке: мектеп → мектепке.'],'мен үй барамын':['Мен үйге барамын','после «үй» нужно окончание -ге: үйге.'],'сен қалай':['Сен қалайсың?','нужно личное окончание -сың.']};
-const norm=s=>s.toLowerCase().replace(/[«»"“”.!?,]/g,'').trim();
-function reply(v){const t=norm(v),rest=norm(v.includes(':')?v.split(':').slice(1).join(':'):v),tk=t.split(/[\s:]+/);
-if(/исправ|ошибк/.test(t)){const f=FIX[rest];return f?`Исправленный вариант: <b>${f[0]}</b><br>Почему: ${f[1]}`:'В демо-режиме я проверяю только заготовленные примеры, например: «Исправь: Мен мектеп барамын». В настоящей версии ИИ разбирал бы любой текст.'}
-if(/перев/.test(t)&&TR[rest])return `<b>${esc(v.split(':').pop().trim())}</b> — ${TR[rest]}`;
-const w=ALL.find(x=>tk.includes(x[0])||tk.includes(x[1]));
-if(w){const e=EXS.find(x=>norm(x[0]).split(' ').some(y=>y.startsWith(w[0])));return `<b>${w[0]}</b> — ${w[1]}.`+(e?`<br>Пример: <b>${e[0]}</b><br><small>${e[1]}</small>`:'')}
-return 'Этого сценария пока нет в демо. Попробуйте: «Что значит кітап?», «Переведи: Мен мектепке барамын» или «Исправь: Мен мектеп барамын».'}
-function snd(){const i=$('#inp'),v=i.value.trim();if(!v||busy)return;M.push(['me',esc(v)]);busy=true;render();setTimeout(()=>{M.push(['bot',reply(v)]);busy=false;render()},850)}
-function ask(k){$('#inp').value=EXQ[k];snd()}
-function ins(c){const t=$('#ta'),s=t.selectionStart;t.value=t.value.slice(0,s)+c+t.value.slice(t.selectionEnd);t.focus();t.selectionStart=t.selectionEnd=s+1}
-function crC(){const x=$('#ta').value.trim(),t=CR[CT],n=x.split(/[.!?\n]+/).filter(s=>s.trim().split(/\s+/).length>=2).length,f=$('#fb');
-if(n<t.m){f.className='fb bad';f.textContent=`Нужно минимум ${t.m} предложения(й), сейчас: ${n}.`;return}
-const o=S.c.find(y=>y.k===CT);if(o){o.x=x;save();toast('Работа обновлена ✓')}else{S.c.push({k:CT,x});pts(15);toast('Работа сохранена! +15 баллов ✓')}render()}
-function reset(){if(!rst){rst=true;render();setTimeout(()=>{rst=false;if(V==='home')render()},3500);return}S=Object.assign({},DEF,{th:S.th});save();rst=false;toast('Прогресс сброшен');render(1)}
-$('#side').innerHTML='<div class="logo" onclick="go(\'home\')">QAZAQ <b>SPACE</b></div>'+NAV.map(n=>`<button class="ni" data-k="${n[0]}" onclick="go('${n[0]}')"><i>${n[2]}</i>${n[1]}</button>`).join('');
-$('#bn').innerHTML=NAV.map(n=>`<button data-k="${n[0]}" onclick="go('${n[0]}')"><i>${n[2]}</i>${n[1]}</button>`).join('');
-applyTh();render(1);
-</script>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h5v-6h4v6h5V9.5"/></symbol>
+    <symbol id="i-chat" viewBox="0 0 24 24"><path d="M21 11.5a7.5 7.5 0 0 1-7.5 7.5H8l-4 3v-4.8A7.5 7.5 0 1 1 21 11.5Z"/><path d="M8 10h8M8 13.5h5"/></symbol>
+    <symbol id="i-spark" viewBox="0 0 24 24"><path d="m12 3 1.9 5.6L19.5 10l-5.6 1.9L12 17.5l-1.9-5.6L4.5 10l5.6-1.4L12 3Z"/><path d="M18.5 16.5 19.4 19l2.5.9-2.5.9-.9 2.5-.9-2.5-2.5-.9 2.5-.9.9-2.5Z"/></symbol>
+    <symbol id="i-game" viewBox="0 0 24 24"><rect x="2.5" y="7.5" width="19" height="9.5" rx="4.5"/><path d="M7 10.5v3M5.5 12h3M16.5 11h.01M18.5 13h.01"/></symbol>
+    <symbol id="i-culture" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 3.5v17M3.5 12h17M6 6l12 12M18 6 6 18"/><circle cx="12" cy="12" r="2.6"/></symbol>
+    <symbol id="i-media" viewBox="0 0 24 24"><rect x="9" y="2.5" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21M8.5 21h7"/></symbol>
+    <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5V5.5Z"/><path d="M4 20.5A2.5 2.5 0 0 1 6.5 18H20v3H6.5"/></symbol>
+    <symbol id="i-cards" viewBox="0 0 24 24"><rect x="3" y="6" width="13" height="15" rx="2.5"/><path d="M7 3h11a2 2 0 0 1 2 2v12"/><path d="M6.5 10.5h6M6.5 14h6"/></symbol>
+    <symbol id="i-chart" viewBox="0 0 24 24"><path d="M4 20V4M4 20h16"/><path d="M8 16v-4M12.5 16V8M17 16v-6"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4 8.5 8.5 0 1 0 20 14.5Z"/></symbol>
+    <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m4.5 12.5 5 5 10-11"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M4 12h15M13 6l6 6-6 6"/></symbol>
+    <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></symbol>
+    <symbol id="i-down" viewBox="0 0 24 24"><path d="m5 9 7 7 7-7"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5"/></symbol>
+    <symbol id="i-reset" viewBox="0 0 24 24"><path d="M4 4v6h6"/><path d="M5.5 15a7.5 7.5 0 1 0 1.2-8L4 10"/></symbol>
+    <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3v12M7.5 10.5 12 15l4.5-4.5"/><path d="M4 19h16"/></symbol>
+    <symbol id="i-trash" viewBox="0 0 24 24"><path d="M4 7h16M9 7V4.5h6V7M6.5 7l.8 13h9.4l.8-13"/><path d="M10 11v5M14 11v5"/></symbol>
+    <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5h.01"/></symbol>
+    <symbol id="i-warn" viewBox="0 0 24 24"><path d="M12 3 2.5 20h19L12 3Z"/><path d="M12 9v5M12 17h.01"/></symbol>
+    <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 4.5v15l12-7.5-12-7.5Z"/></symbol>
+    <symbol id="i-speaker" viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9H4Z"/><path d="M16 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24"><rect x="4.5" y="10" width="15" height="10.5" rx="2.5"/><path d="M8 10V7.5a4 4 0 0 1 8 0V10"/></symbol>
+    <symbol id="i-edit" viewBox="0 0 24 24"><path d="M4 20h4L19 9l-4-4L4 16v4Z"/><path d="m13.5 6.5 4 4"/></symbol>
+    <symbol id="i-flag" viewBox="0 0 24 24"><path d="M5 21V4M5 4h11l-1.5 4L16 12H5"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+    <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 0 1 0 18 15 15 0 0 1 0-18Z"/></symbol>
+    <symbol id="i-qr" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3zM20 14h1M14 20h3M20 17v4"/></symbol>
+  </defs>
+</svg>
+
+<div id="fileWarning" class="file-warning" hidden>
+  <b>Сайтты жергілікті сервер арқылы ашыңыз / Откройте сайт через локальный сервер.</b><br>
+  Браузер блокирует ES-модули и загрузку JSON по протоколу <code>file://</code>.<br>
+  В папке проекта выполните: <code>python -m http.server 5173</code>, затем откройте
+  <code>http://localhost:5173</code>. Подробнее — в README.md.
+</div>
+
+<div class="app">
+  <aside class="sidebar" aria-label="Негізгі мәзір">
+    <a class="brand" href="#/home">
+      <span>QAZAQ <span class="brand-accent">SPACE</span></span>
+      <small>Тіл. Ойын. ЖИ. Шығармашылық.</small>
+    </a>
+    <nav class="side-nav" id="sideNav"></nav>
+    <div class="sidebar-foot">
+      <strong>DEMO MODE</strong>
+      <span>Оқу материалы — бастапқы нұсқа. ЖИ әзірге демо-сценарийлермен жұмыс істейді.</span>
+    </div>
+  </aside>
+
+  <div class="col">
+    <header class="topbar" id="topbar">
+      <button class="icon-btn menu-btn" type="button" data-action="open-menu" aria-label="Мәзірді ашу" aria-controls="drawer" aria-expanded="false">
+        <svg aria-hidden="true"><use href="#i-menu"></use></svg>
+      </button>
+      <a class="brand" href="#/home">
+        <span>QAZAQ <span class="brand-accent">SPACE</span></span>
+      </a>
+      <div class="top-actions">
+        <span class="mode-pill" title="Настоящий ИИ пока не подключён"><span class="dot"></span>DEMO</span>
+        <button class="icon-btn" type="button" data-action="toggle-theme" id="themeBtn" aria-label="Тақырыпты ауыстыру">
+          <svg aria-hidden="true"><use href="#i-moon"></use></svg>
+        </button>
+      </div>
+    </header>
+
+    <main id="view" tabindex="-1">
+      <div class="loading">
+        <div>
+          <div class="spinner" aria-hidden="true"></div>
+          <p class="muted">QAZAQ SPACE жүктелуде…</p>
+        </div>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <p>
+        <strong>QAZAQ SPACE</strong> — оқу демо-платформасы. Тілдік және мәдени материалдар мұғалім тексеруін қажет етеді.
+        Оқушы жұмыстары тек осы құрылғыда сақталады және жарияланбайды. / Учебная демо-платформа: материалы требуют проверки преподавателем, работы хранятся локально.
+      </p>
+    </footer>
+  </div>
+</div>
+
+<div class="drawer-backdrop" id="drawerBackdrop" hidden></div>
+<aside class="drawer" id="drawer" hidden aria-label="Мобильді мәзір">
+  <div class="drawer-head">
+    <a class="brand" href="#/home">
+      <span>QAZAQ <span class="brand-accent">SPACE</span></span>
+      <small>Тіл. Ойын. ЖИ. Шығармашылық.</small>
+    </a>
+    <button class="icon-btn" type="button" data-action="close-menu" aria-label="Мәзірді жабу">
+      <svg aria-hidden="true"><use href="#i-close"></use></svg>
+    </button>
+  </div>
+  <nav class="side-nav" id="drawerNav" aria-label="Барлық бөлімдер"></nav>
+  <div class="drawer-foot">
+    <button class="icon-btn" type="button" data-action="toggle-theme" aria-label="Тақырыпты ауыстыру" style="width:100%;border-radius:12px;gap:8px;display:flex">
+      <svg aria-hidden="true"><use href="#i-moon"></use></svg>
+      <span style="font-size:.85rem;font-weight:600">Тақырыпты ауыстыру</span>
+    </button>
+    <p class="tiny muted" style="margin:0">DEMO MODE · ЖИ әзірге қосылмаған</p>
+  </div>
+</aside>
+
+<nav class="bottom-nav" id="bottomNav" aria-label="Төменгі мәзір"></nav>
+
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+<div id="modal" class="modal-wrap" hidden role="dialog" aria-modal="true" aria-labelledby="modalTitle"></div>
+
+<noscript>
+  <div class="file-warning" style="margin:24px">
+    <b>JavaScript өшірілген / JavaScript отключён.</b><br>
+    QAZAQ SPACE жұмыс істеуі үшін браузерде JavaScript қосыңыз. / Для работы платформы включите JavaScript.
+  </div>
+</noscript>
+
+<script type="module" src="assets/js/app.js"></script>
 </body>
 </html>

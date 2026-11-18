@@ -1,0 +1,20 @@
+# Локальные секреты — НЕ коммитить
+.secrets/
+.env
+.env.*
+*.local
+
+# ОС и редакторы
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+
+# Зависимости и сборка (проект статический, но на будущее)
+node_modules/
+dist/
+
+# Python
+__pycache__/
+*.pyc
