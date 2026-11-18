@@ -213,11 +213,12 @@ function renderKeyboard(lang) {
       }
     }
   }
+  // Split into more rows for mobile compatibility
+  const perRow = lang === 'kz' ? 11 : 10;
   const rows = [];
-  // Split into 3 rows
-  const row1 = alphabet.slice(0, Math.ceil(alphabet.length / 3));
-  const row2 = alphabet.slice(Math.ceil(alphabet.length / 3), Math.ceil(alphabet.length * 2 / 3));
-  const row3 = alphabet.slice(Math.ceil(alphabet.length * 2 / 3));
+  for (let i = 0; i < alphabet.length; i += perRow) {
+    rows.push(alphabet.slice(i, i + perRow));
+  }
   
   function keyRow(keys) {
     return `<div class="qw-keyboard-row">${keys.map((k) => {
@@ -227,15 +228,12 @@ function renderKeyboard(lang) {
     }).join('')}</div>`;
   }
   
-  return `
-    ${keyRow(row1)}
-    ${keyRow(row2)}
-    <div class="qw-keyboard-row">
-      <button type="button" class="qw-key qw-key-wide" data-action="enter">Enter</button>
-      ${keyRow(row3)}
-      <button type="button" class="qw-key qw-key-wide" data-action="backspace">⌫</button>
-    </div>
-  `;
+  let html = rows.map(keyRow).join('');
+  html += `<div class="qw-keyboard-row">
+    <button type="button" class="qw-key qw-key-wide" data-action="enter">Enter</button>
+    <button type="button" class="qw-key qw-key-wide" data-action="backspace">⌫</button>
+  </div>`;
+  return html;
 }
 
 function renderResult() {

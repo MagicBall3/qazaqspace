@@ -1147,7 +1147,18 @@ select option { background: var(--surface-solid); color: var(--text); }
 .qw-key:hover { background: var(--surface-strong); }
 .qw-key-wide { min-width: 52px; font-size: .75rem; }
 @media (max-width: 400px) {
-  .qw-cell { font-size: 1.1rem; }
-  .qw-key { min-width: 28px; height: 40px; font-size: .75rem; }
-  .qw-key-wide { min-width: 42px; }
+  .qw-grid { max-width: 100%; padding: 0 4px; }
+  .qw-cell { font-size: 1.1rem; border-width: 1.5px; }
+  .qw-keyboard-row { gap: 3px; }
+  .qw-key { min-width: 24px; height: 38px; font-size: .7rem; padding: 0 2px; }
+  .qw-key-wide { min-width: 36px; font-size: .65rem; }
+}
+
+@media (max-width: 360px) {
+  .qw-grid { max-width: 100%; padding: 0 2px; }
+  .qw-row { gap: 4px; }
+  .qw-cell { font-size: 1rem; border-width: 1.5px; border-radius: 6px; }
+  .qw-keyboard-row { gap: 2px; }
+  .qw-key { min-width: 20px; height: 36px; font-size: .65rem; padding: 0 1px; }
+  .qw-key-wide { min-width: 30px; font-size: .6rem; }
 }
