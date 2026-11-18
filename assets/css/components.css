@@ -317,7 +317,7 @@ button.chip:hover, a.chip:hover { border-color: var(--accent); color: var(--text
 .notice.ok { border-color: color-mix(in srgb, var(--ok) 30%, transparent); background: var(--ok-soft); }
 .notice.ok svg { color: var(--ok); }
 
-.demo-banner {
+.reply-banner {
   display: flex;
   align-items: flex-start;
   gap: 10px;
@@ -330,8 +330,8 @@ button.chip:hover, a.chip:hover { border-color: var(--accent); color: var(--text
   line-height: 1.5;
   color: var(--text);
 }
-.demo-banner svg { width: 18px; height: 18px; color: var(--warn); flex: 0 0 auto; margin-top: 2px; }
-.demo-banner b { color: var(--warn); }
+.reply-banner svg { width: 18px; height: 18px; color: var(--warn); flex: 0 0 auto; margin-top: 2px; }
+.reply-banner b { color: var(--warn); }
 
 /* Progress ---------------------------------------------------------------- */
 
@@ -1098,3 +1098,16 @@ select option { background: var(--surface-solid); color: var(--text); }
 }
 
 .theme-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 9px; }
+
+
+/* Mobile grid overrides --------------------------------------------------- */
+@media (max-width: 620px) {
+  .cols-2, .cols-3, .cols-4 { grid-template-columns: 1fr; }
+  .auto-grid { grid-template-columns: 1fr; }
+  .auto-grid-sm { grid-template-columns: repeat(2, 1fr); }
+  .split { grid-template-columns: 1fr; }
+  .direction-card { min-height: auto; }
+  .game-hud { flex-direction: column; align-items: flex-start; gap: 6px; }
+  .chat-window { max-height: 40vh; }
+  .msg { max-width: 92%; }
+}

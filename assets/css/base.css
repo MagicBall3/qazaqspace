@@ -446,6 +446,16 @@ main {
   .bottom-nav [aria-current="page"] { color: var(--accent); background: var(--accent-soft); }
 }
 
+@media (max-width: 360px) {
+  .topbar { min-height: 54px; padding: 6px 10px; }
+  main { padding: 12px 10px 96px; }
+  .bottom-nav a, .bottom-nav button { font-size: .6rem; padding: 4px 1px; }
+  .bottom-nav svg { width: 18px; height: 18px; }
+  .card { padding: 14px; }
+  .btn { padding: 9px 15px; font-size: .88rem; }
+  .btn-sm { padding: 6px 10px; font-size: .78rem; }
+}
+
 @media (max-width: 520px) {
   .topbar { min-height: 58px; padding: 8px 12px; }
   .mode-pill { display: none; }

@@ -7,11 +7,9 @@ export const CONFIG = {
   storageKey: 'qazaqspace.v2',
   legacyStorageKey: 'qs',
   ai: {
-    // Пока null — AI LAB работает в честном демо-режиме.
-    // Для реального ИИ укажите серверный прокси, например '/api/ai'.
+    // Для подключения серверного ИИ укажите URL, например '/api/ai'.
     endpoint: null,
-    // 'demo' | 'http' — вычисляется автоматически в ai/provider.js
-    mode: 'demo',
+    mode: 'local',
     maxInputLength: 400,
     maxHistory: 12
   },

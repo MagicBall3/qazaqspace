@@ -1,21 +1,20 @@
 /**
  * Провайдер AI LAB.
  *
- * Сейчас endpoint = null, поэтому используется честный демо-провайдер.
- * Для настоящего ИИ укажите в config.js серверный URL (например, '/api/ai').
+ * По умолчанию используется локальный көмекші (сөздік және грамматика негізінде).
+ * Для подключения серверного ИИ укажите в config.js серверный URL (например, '/api/ai').
  * Ключи API хранятся ТОЛЬКО на сервере и никогда не попадают в клиент.
  */
 import { CONFIG } from '../config.js';
 import { demoReply } from './demo.js';
 
-const demoProvider = {
-  mode: 'demo',
-  label: 'Демо-сценарийлер',
+const localProvider = {
+  mode: 'local',
+  label: 'Локальный көмекші',
   async send({ text, level }) {
     await new Promise((resolve) => setTimeout(resolve, 450 + Math.random() * 350));
     return {
-      text: demoReply(text, { level }),
-      demo: true
+      text: demoReply(text, { level })
     };
   }
 };
@@ -49,7 +48,6 @@ function httpProvider(endpoint) {
         }
         return {
           text: reply,
-          demo: false,
           provider: payload.provider || null
         };
       } finally {
@@ -59,7 +57,7 @@ function httpProvider(endpoint) {
   };
 }
 
-export const aiProvider = CONFIG.ai.endpoint ? httpProvider(CONFIG.ai.endpoint) : demoProvider;
+export const aiProvider = CONFIG.ai.endpoint ? httpProvider(CONFIG.ai.endpoint) : localProvider;
 
 export function providerMode() {
   return aiProvider.mode;

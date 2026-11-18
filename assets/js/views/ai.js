@@ -1,6 +1,5 @@
 /**
- * AI LAB — чат с честным обозначением демо-режима.
- * История хранится только в памяти вкладки и не пишется в localStorage.
+ * AI LAB — чат с көмекшісі. История хранится только в памяти вкладки.
  */
 import { CONFIG } from '../config.js';
 import { esc, icon, toast, confirmDialog } from '../ui.js';
@@ -17,9 +16,8 @@ const QUICK_PROMPTS = [
 
 const INITIAL_MESSAGE = {
   role: 'bot',
-  demo: true,
-  text: `Сәлем! Мен — QAZAQ SPACE-тың <b>демо-көмекшісімін</b>.<br>
-    Нақты ИИ әзірге қосылмаған: жауаптар алдын ала дайындалған сценарийлерден алынады.<br><br>
+  text: `Сәлем! Мен — QAZAQ SPACE-тың көмекшісімін.<br>
+    Мен сөздің мағынасын түсіндірейін, сөйлемді аударып, қате түзетейін.<br><br>
     Мысалы: «Что значит кітап?», «Переведи: Мен мектепке барамын», «Исправь: Мен мектеп барамын», «Объясни -ке».`
 };
 
@@ -31,9 +29,7 @@ function messageHtml(message) {
   if (message.role === 'user') {
     return `<div class="msg me">${esc(message.text)}</div>`;
   }
-  const body = message.demo
-    ? message.text
-    : esc(message.text).replace(/\n/g, '<br>');
+  const body = esc(message.text).replace(/\n/g, '<br>');
   return `<div class="msg">${body}${message.error ? '' : ''}</div>`;
 }
 
@@ -47,14 +43,11 @@ function historyForServer() {
     .slice(-CONFIG.ai.maxHistory)
     .map((message) => ({
       role: message.role === 'user' ? 'user' : 'assistant',
-      content: message.demo ? String(message.text).replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim() : message.text
+      content: String(message.text).replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim()
     }));
 }
 
 export function aiView() {
-  const mode = providerMode();
-  const isDemo = mode === 'demo';
-
   return {
     nav: 'ai',
     title: 'AI LAB — ЖИ-көмекші',
@@ -66,25 +59,15 @@ export function aiView() {
           <p>Грамматиканы түсіну, сөз мағынасын қарау, қатені түзету және диалог үлгісін алуға арналған көмекші.</p>
         </div>
 
-        ${isDemo
-          ? `<div class="demo-banner">
-              ${icon('warn')}
-              <div>
-                <b>DEMO MODE.</b> Бұл нақты ИИ емес. Жауаптар алдын ала дайындалған сценарийлер мен жергілікті сөздіктен құралады.
-                Нақты ИИ қосылғанда интерфейс өзгермейді — тек серверлік провайдер қосылады.
-              </div>
-            </div>`
-          : `<div class="notice info" style="margin-bottom:14px">${icon('spark')}<div><strong>Серверлік ИИ қосылған.</strong> Сұраныстар қорғалған серверлік API арқылы жіберіледі. API кілттері клиентте сақталмайды.</div></div>`}
-
         <div class="split">
           <section class="card chat-card">
             <div class="chat-head">
               <span class="card-icon soft" style="width:36px;height:36px;border-radius:11px">${icon('spark')}</span>
               <div>
                 <b style="font-size:.9rem">QAZAQ көмекші</b>
-                <div class="tiny muted">${isDemo ? 'Демо-сценарийлер' : 'Серверлік провайдер'}</div>
+                <div class="tiny muted">Сөздік және грамматика негізінде</div>
               </div>
-              <span class="tag ${isDemo ? 'warn' : 'ok'} status">${isDemo ? 'DEMO' : 'ONLINE'}</span>
+              <span class="tag ok status">ONLINE</span>
             </div>
 
             <div class="chat-window" data-chat aria-live="polite">${chatHtml()}</div>
@@ -186,15 +169,14 @@ export function aiView() {
             history: historyForServer()
           });
           if (controller.signal.aborted) return;
-          messages.push({ role: 'bot', demo: reply.demo, text: reply.text });
+          messages.push({ role: 'bot', text: reply.text });
         } catch (error) {
           if (controller.signal.aborted) return;
           console.warn('[QAZAQ SPACE] AI request failed', error);
           messages.push({
             role: 'bot',
-            demo: true,
             error: true,
-            text: 'Байланыс қатесі. Демо-режимде жауап беру мүмкін болмады. Бетті жаңартып, қайта көріңіз. <br><small>Нақты ИИ қосылғанда бұл хабарлама сервер жауабына байланысты болады.</small>'
+            text: 'Байланыс қатесі. Бетті жаңартып, қайта көріңіз. <br><small>Интернет байланысын тексеріңіз.</small>'
           });
         } finally {
           if (!controller.signal.aborted) {

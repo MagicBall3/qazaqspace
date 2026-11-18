@@ -236,7 +236,11 @@ function registerRoutes() {
   route('media/new/:templateId', (params) => mediaEditorView({ templateId: params.templateId }));
   route('media/work/:workId', (params) => mediaEditorView({ workId: params.workId }));
   route('progress', () => progressView());
-  setNotFound(() => null);
+  setNotFound(() => ({
+    nav: 'home',
+    title: 'Бет табылмады',
+    html: '<div class="page"><div class="error-box"><h2>404</h2><p class="muted">Бет табылмады. Мүмкін сілтеме ескірген.</p><a class="btn" href="#/home">Басты бетке оралу</a></div></div>'
+  }));
 }
 
 /* Глобальные действия ---------------------------------------------------- */
@@ -324,7 +328,7 @@ async function boot() {
     }
   });
 
-  console.info(`[QAZAQ SPACE] ${CONFIG.version} · AI mode: ${CONFIG.ai.endpoint ? 'http' : 'demo'}`);
+  console.info(`[QAZAQ SPACE] ${CONFIG.version} · AI mode: ${CONFIG.ai.endpoint ? 'http' : 'local'}`);
 }
 
 boot();

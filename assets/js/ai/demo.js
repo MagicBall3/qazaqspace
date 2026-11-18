@@ -1,7 +1,6 @@
 /**
- * DEMO AI — заранее подготовленные сценарии.
- * Это НЕ настоящая языковая модель: ответы строятся по локальным правилам
- * и данным словаря. Демо-режим явно обозначен в интерфейсе.
+ * QAZAQ көмекшісі — сөздік негізіндегі жауаптар.
+ * Ответы строятся по локальным правилам и данным словаря.
  */
 import { data } from '../data.js';
 import { esc, levelLabel } from '../ui.js';
@@ -125,7 +124,7 @@ function formatWord(word) {
     <span class="tag needs_review">тексеру қажет</span>`;
 }
 
-function demoBadge(level) {
+function replyBadge(level) {
   return `<span class="tag warn">ДЕМО · ${esc(levelLabel(level))}</span>`;
 }
 
@@ -143,7 +142,7 @@ export function demoReply(rawText, { level = 1 } = {}) {
     if (fix) {
       return `<b>Түзетілген нұсқа:</b> ${esc(fix.correct)}<br>
         <b>Себебі:</b> ${esc(fix.reason)}<br>
-        <small>Бұл — демо-тексеру. Нақты ИИ кез келген мәтінді талдай алады.</small>`;
+        <small>Бұл — сөздік негізіндегі жауап.</small>`;
     }
     return `Демо-режимде мен тек дайын мысалдарды тексеремін. Мысалы:<br>
       «Исправь: Мен мектеп барамын»<br>
@@ -157,7 +156,7 @@ export function demoReply(rawText, { level = 1 } = {}) {
     if (word) {
       return `${formatWord(word)}<br><small>Бұл жазба Master Vocabulary деректерінен алынды.</small>`;
     }
-    return `Бұл сөз демо-сөздікте табылмады. Демо-режим шағын оқу сөздігімен жұмыс істейді.<br>
+    return `Бұл сөз сөздікте табылмады. Көмекші шағын оқу сөздігімен жұмыс істейді.<br>
       Қол жетімді мысалдар: «Что значит кітап?», «Переведи: Мен мектепке барамын», «Что такое әже?»`;
   }
 
@@ -172,7 +171,7 @@ export function demoReply(rawText, { level = 1 } = {}) {
   };
   if (sentenceTranslations[rest]) {
     return `<b>${esc(rawText.split(':').pop().trim())}</b> — ${sentenceTranslations[rest]}<br>
-      <small>Аударма демо-сценарийден алынды.</small>`;
+      <small>Аударма сөздік негізінде алынды.</small>`;
   }
 
   /* Грамматика ------------------------------------------------------------ */
@@ -181,7 +180,7 @@ export function demoReply(rawText, { level = 1 } = {}) {
     return `<b>${esc(grammar.title)}</b><br>
       ${esc(grammar.body)}<br>
       <b>Мысал:</b> ${esc(grammar.example)}<br>
-      ${demoBadge(level)}`;
+      ${replyBadge(level)}`;
   }
 
   /* Диалог ---------------------------------------------------------------- */
@@ -214,7 +213,7 @@ export function demoReply(rawText, { level = 1 } = {}) {
 
   /* Приветствие ------------------------------------------------------------ */
   if (/(сәлем|привет|здравств|hello|hi)/.test(text)) {
-    return `Сәлем! Мен QAZAQ SPACE-тың <b>демо-көмекшісімін</b>. Нақты ИИ әзірге қосылмаған.<br>
+    return `Сәлем! Мен QAZAQ SPACE-тың көмекшісімін.<br>
       Мен мынаған көмектесе аламын:<br>
       • сөздің мағынасын түсіндіру<br>
       • қарапайым сөйлемді аудару<br>
@@ -224,7 +223,7 @@ export function demoReply(rawText, { level = 1 } = {}) {
   }
 
   /* Fallback --------------------------------------------------------------- */
-  return `Бұл сұрақ демо-сценарийлерде жоқ. Мен нақты ИИ емеспін, сондықтан кез келген мәтінді талдай алмаймын.<br><br>
+  return `Бұл сұрақ қазіргі сөздікте жоқ. Мен кез келген мәтінді талдай алмаймын.<br><br>
     Мыналарды көріңіз:<br>
     • «Что значит кітап?»<br>
     • «Переведи: Мен мектепке барамын»<br>
