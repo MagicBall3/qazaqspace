@@ -30,7 +30,7 @@ data/vocabulary.json → слова и темы
 - `lessons[].vocabulary[]` → `vocabulary.words[].id`;
 - `vocabulary.words[].topic` → `vocabulary.topics[].id`;
 - `culture.cards[].theme` → `culture.themes[].id`;
-- `media.templates[].id` используется в прогрессе сохранённых работ.
+- `media.templates[].id` используется в достижениях сохранённых работ.
 
 ---
 

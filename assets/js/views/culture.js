@@ -39,7 +39,7 @@ export function cultureView() {
     html: `
       <div class="page">
         <div class="section-head">
-          <div class="eyebrow">${icon('culture')} Бес бағыттың бірі</div>
+          <div class="eyebrow">${icon('culture')} Төрт бағыттың бірі</div>
           <h2>ҰЛТТЫҚ LAB · Ұлттық құндылықтар</h2>
           <p>Қазақ мәдениетін қазақ тілінде оқып, қажет жерде орысша түсіндірмені қараңыз. Әр карточкада сөздік және тапсырма бар.</p>
         </div>

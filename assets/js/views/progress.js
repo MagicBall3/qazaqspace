@@ -1,5 +1,5 @@
 /**
- * Менің прогресім — тек нақты орындалған әрекеттер.
+ * Менің жетістігім — тек нақты орындалған әрекеттер.
  */
 import { data } from '../data.js';
 import {
@@ -59,20 +59,20 @@ export function progressView() {
 
   return {
     nav: 'progress',
-    title: 'Менің прогресім',
+    title: 'Менің жетістігім',
     html: `
       <div class="page">
         <div class="section-head">
-          <div class="eyebrow">${icon('chart')} Жеке прогресс</div>
-          <h2>Менің прогресім</h2>
+          <div class="eyebrow">${icon('chart')} Жеке жетістік</div>
+          <h2>Менің жетістігім</h2>
           <p>Бұл көрсеткіштер тек сіздің нақты әрекеттеріңізден есептеледі: аяқталған сабақтар, ойын нәтижелері, мәдениет тапсырмалары және сақталған жұмыстар.</p>
         </div>
 
-        ${storage.available ? '' : `<div class="notice warn" style="margin-bottom:14px">${icon('warn')}<div><strong>Сақтау шектеулі.</strong> Прогресс тек осы сессияда сақталуы мүмкін.</div></div>`}
+        ${storage.available ? '' : `<div class="notice warn" style="margin-bottom:14px">${icon('warn')}<div><strong>Сақтау шектеулі.</strong> Жетістіктер тек осы сессияда сақталуы мүмкін.</div></div>`}
 
         <section class="card overall-card" style="margin-bottom:14px">
-          <div class="overall-ring" style="--p:${progress.percent}" role="img" aria-label="Жалпы прогресс ${progress.percent}%">
-            <div><b>${progress.percent}%</b><small>жалпы прогресс</small></div>
+          <div class="overall-ring" style="--p:${progress.percent}" role="img" aria-label="Жалпы жетістік ${progress.percent}%">
+            <div><b>${progress.percent}%</b><small>жалпы жетістік</small></div>
           </div>
           <div>
             <div class="stat-grid" style="margin-bottom:14px">
@@ -109,10 +109,10 @@ export function progressView() {
 
         <section class="card">
           <div class="hr-label" style="margin-top:0">Деректерді басқару</div>
-          <p class="small muted">Прогресс осы браузерде ғана сақталады. Оны файлға экспорттауға болады. Басқа құрылғыға автоматты синхрондау жоқ.</p>
+          <p class="small muted">Жетістіктер осы браузерде ғана сақталады. Оны файлға экспорттауға болады. Басқа құрылғыға автоматты синхрондау жоқ.</p>
           <div class="btn-row">
-            <button type="button" class="btn btn-ghost btn-sm" data-export>${icon('download')} Прогресті экспорттау</button>
-            <button type="button" class="btn btn-danger btn-sm" data-reset>${icon('reset')} Прогресті сброс ету</button>
+            <button type="button" class="btn btn-ghost btn-sm" data-export>${icon('download')} Жетістіктерді экспорттау</button>
+            <button type="button" class="btn btn-danger btn-sm" data-reset>${icon('reset')} Жетістіктерді қалпына келтіру</button>
           </div>
           <p class="tiny muted" style="margin:10px 0 0">Соңғы белсенділік: ${lastChange || 'әрекет жоқ'}.</p>
         </section>
@@ -124,14 +124,14 @@ export function progressView() {
         const exportButton = event.target.closest('[data-export]');
         if (exportButton) {
           downloadText('qazaqspace-progress.json', exportProgress(), 'application/json;charset=utf-8');
-          toast('Прогресс файлға экспортталды', 'ok');
+          toast('Жетістіктер файлға экспортталды', 'ok');
           return;
         }
 
         const resetButton = event.target.closest('[data-reset]');
         if (resetButton) {
           const confirmed = await confirmDialog({
-            title: 'Прогресті сброс ету?',
+            title: 'Жетістіктерді қалпына келтіру?',
             message: 'Барлық аяқталған сабақтар, ойын нәтижелері, мәдениет тапсырмалары және сақталған шығармашылық жұмыстар жойылады. Бұл әрекетті қайтару мүмкін емес.',
             confirmLabel: 'Иә, барлығын жою',
             cancelLabel: 'Болдырмау',
@@ -139,7 +139,7 @@ export function progressView() {
           });
           if (!confirmed) return;
           resetProgress();
-          toast('Прогресс сброс етілді', 'ok');
+          toast('Жетістіктер қалпына келтірілді', 'ok');
           navigate('/progress', { replace: true });
         }
       }, { signal: controller.signal });

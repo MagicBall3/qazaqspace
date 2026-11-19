@@ -35,7 +35,7 @@ export function gameResult({ score, max, note = '', retry = true, title = 'Нә�
       <div class="btn-row">
         ${retry ? '<button type="button" class="btn" data-retry>Қайта ойнау</button>' : ''}
         <a class="btn btn-ghost" href="#/games">Ойындарға оралу</a>
-        <a class="btn btn-ghost" href="#/progress">Прогресті көру</a>
+        <a class="btn btn-ghost" href="#/progress">Жетістіктерді көру</a>
       </div>
     </div>`;
 }

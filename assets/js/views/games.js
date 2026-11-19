@@ -57,7 +57,7 @@ export function gamesView(params, query) {
     html: `
       <div class="page">
         <div class="section-head">
-          <div class="eyebrow">${icon('game')} Бес бағыттың бірі</div>
+          <div class="eyebrow">${icon('game')} Төрт бағыттың бірі</div>
           <h2>GAME · Ойын алаңы</h2>
           <p>Сөздік, сөйлем құру, мақал-мәтел, викторина, QR-квест және уақытқа қарсы марафон. Барлық нәтиже нақты жауаптардан есептеледі.</p>
         </div>
@@ -65,7 +65,7 @@ export function gamesView(params, query) {
         <div class="notice info" style="margin-bottom:14px">
           ${icon('info')}
           <div>
-            <strong>Қалай жұмыс істейді:</strong> әр ойынның нәтижесі осы құрылғыда сақталады және «Менің прогресім» бөлімінде көрінеді.
+            <strong>Қалай жұмыс істейді:</strong> әр ойынның нәтижесі осы құрылғыда сақталады және «Менің жетістігім» бөлімінде көрінеді.
             Ойындар оқу материалын бекітуге арналған, баға қоюға емес.
           </div>
         </div>

@@ -3,16 +3,9 @@
  * Секретов здесь нет и быть не должно.
  */
 export const CONFIG = {
-  version: '2.0.0',
+  version: '2.1.0',
   storageKey: 'qazaqspace.v2',
   legacyStorageKey: 'qs',
-  ai: {
-    // Для подключения серверного ИИ укажите URL, например '/api/ai'.
-    endpoint: null,
-    mode: 'local',
-    maxInputLength: 400,
-    maxHistory: 12
-  },
   media: {
     maxWorks: 50,
     maxTextLength: 12000
@@ -50,10 +43,9 @@ export const NAV_SECTIONS = [
     ]
   },
   {
-    label: 'Бес бағыт',
+    label: 'Төрт бағыт',
     items: [
       { href: '#/speak', key: 'speak', label: 'SPEAK', icon: 'chat' },
-      { href: '#/ai', key: 'ai', label: 'AI LAB', icon: 'spark' },
       { href: '#/games', key: 'games', label: 'GAME', icon: 'game' },
       { href: '#/culture', key: 'culture', label: 'ҰЛТТЫҚ LAB', icon: 'culture' },
       { href: '#/media', key: 'media', label: 'MEDIA SPACE', icon: 'media' }
@@ -62,7 +54,7 @@ export const NAV_SECTIONS = [
   {
     label: 'Жеке',
     items: [
-      { href: '#/progress', key: 'progress', label: 'Менің прогресім', icon: 'chart' }
+      { href: '#/progress', key: 'progress', label: 'Менің жетістігім', icon: 'chart' }
     ]
   }
 ];
@@ -71,6 +63,6 @@ export const BOTTOM_NAV = [
   { href: '#/home', key: 'home', label: 'Басты', icon: 'home' },
   { href: '#/lessons', key: 'lessons', label: 'Сабақ', icon: 'book' },
   { href: '#/games', key: 'games', label: 'Ойын', icon: 'game' },
-  { href: '#/ai', key: 'ai', label: 'ЖИ', icon: 'spark' },
+  { href: '#/cult', key: 'culture', label: 'Мәдениет', icon: 'culture' },
   { key: '__menu', label: 'Мәзір', icon: 'menu', action: 'open-menu' }
 ];

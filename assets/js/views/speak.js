@@ -15,7 +15,7 @@ export function speakView() {
     html: `
       <div class="page">
         <div class="section-head">
-          <div class="eyebrow">${icon('chat')} Бес бағыттың бірі</div>
+          <div class="eyebrow">${icon('chat')} Төрт бағыттың бірі</div>
           <h2>SPEAK · Сөйлеу практикасы</h2>
           <p>Нақты өмірлік жағдайларда қазақша сөйлеуді үйреніңіз: диалогты тыңдаңыз, фразаларды қайталаңыз, рөлдік тапсырманы орындаңыз.</p>
         </div>

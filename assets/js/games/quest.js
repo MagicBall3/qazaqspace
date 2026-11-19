@@ -77,7 +77,7 @@ export function render() {
           ? `<div class="result-banner" style="margin-bottom:14px">
               <span class="tag accent">Квест аяқталды</span>
               <div class="result-score">${questScore(state)} / ${total * (STATION_POINTS + CODE_BONUS)}</div>
-              <div class="result-max">Барлық станция өтілді · нәтиже прогресте сақталды</div>
+              <div class="result-max">Барлық станция өтілді · нәтиже жетістікте сақталды</div>
             </div>`
           : ''}
 

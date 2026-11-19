@@ -105,7 +105,7 @@ export function mediaView() {
     html: `
       <div class="page">
         <div class="section-head">
-          <div class="eyebrow">${icon('media')} Бес бағыттың бірі</div>
+          <div class="eyebrow">${icon('media')} Төрт бағыттың бірі</div>
           <h2>MEDIA SPACE · Шығармашылық</h2>
           <p>Мектеп өмірі туралы мәтін, жаңалық, сұхбат, подкаст немесе репортаж жоспарын жасаңыз. Дайын шаблонды таңдап, өз сөздеріңізбен толтырыңыз.</p>
         </div>
@@ -273,7 +273,7 @@ export function mediaEditorView(params) {
               ${work ? `<button type="button" class="btn btn-danger btn-ghost" data-delete-work>${icon('trash')} Өшіру</button>` : ''}
             </div>
             <p class="tiny muted" style="margin:10px 0 0" data-save-note>
-              Сақталмаған мәтін осы беттен шыққанда жоғалуы мүмкін. Жұмыс автоматты түрде жоба ретінде сақталады, бірақ ол прогреске есептелмейді.
+               Сақталмаған мәтін осы беттен шыққанда жоғалуы мүмкін. Жұмыс автоматты түрде жоба ретінде сақталады, бірақ ол жетістікке есептелмейді.
             </p>
           </section>
 

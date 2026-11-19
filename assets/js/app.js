@@ -12,7 +12,6 @@ import { homeView } from './views/home.js';
 import { lessonsView } from './views/lessons.js';
 import { lessonView } from './views/lesson.js';
 import { speakView, speakScenarioView } from './views/speak.js';
-import { aiView } from './views/ai.js';
 import { gamesView, gameView } from './views/games.js';
 import { cultureView, cultureCardView } from './views/culture.js';
 import { mediaView, mediaEditorView } from './views/media.js';
@@ -222,7 +221,6 @@ function registerRoutes() {
   route('vocab', () => vocabView());
   route('speak', () => speakView());
   route('speak/:id', (params) => speakScenarioView(params));
-  route('ai', () => aiView());
   route('games', (params, query) => gamesView(params, query));
   route('game/:id', (params, query) => gameView(params, query));
   route('culture', () => cultureView());
@@ -280,7 +278,7 @@ function bindGlobalActions() {
   }
 
   window.addEventListener('qazaqspace:storage-error', () => {
-    toast('Прогресті сақтау мүмкін болмады.', 'error', 5000);
+    toast('Жетістіктерді сақтау мүмкін болмады.', 'error', 5000);
   });
 }
 
@@ -318,8 +316,6 @@ async function boot() {
       showFatal();
     }
   });
-
-  console.info(`[QAZAQ SPACE] ${CONFIG.version} · AI mode: ${CONFIG.ai.endpoint ? 'http' : 'local'}`);
 }
 
 boot();
