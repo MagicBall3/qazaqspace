@@ -91,7 +91,7 @@ export function homeView() {
         <section class="hero">
           <div class="hero-orbit" aria-hidden="true"></div>
           <span class="hero-badge">${icon('globe')} 5–7 сынып · қазақ тілі</span>
-          <h1>Қазақ тілінде бірге сөйлейік</h1>
+          <h1>Қазақ тілінде бірге сөйлейік!</h1>
           <p class="lead">
             QAZAQ SPACE — сөз жаттауға ғана емес, нақты өмірде қазақша сөйлеуге арналған оқу кеңістігі.
           </p>
@@ -100,7 +100,7 @@ export function homeView() {
               ? `<a class="btn" href="#/lesson/${esc(nextLesson.id)}">Оқуды жалғастыру ${icon('arrow')}</a>`
               : `<a class="btn" href="#/games">Ойындарға өту ${icon('arrow')}</a>`}
             <a class="btn btn-ghost" href="#/speak">${icon('chat')} Сөйлеуді бастау</a>
-            <a class="btn btn-ghost" href="#/progress">${icon('chart')} Менің прогресім</a>
+            <a class="btn btn-ghost" href="#/progress">${icon('chart')} Менің жетістігім</a>
           </div>
         </section>
 
@@ -128,11 +128,11 @@ export function homeView() {
             <div class="card-head">
               <span class="card-icon soft">${icon('chart')}</span>
               <div>
-                <h3>Менің прогресім</h3>
+                <h3>Менің жетістігім</h3>
                 <p>Нақты орындалған әрекеттер бойынша</p>
               </div>
             </div>
-            ${progressBar(progress.percent, 100, { label: 'Жалпы прогресс' })}
+            ${progressBar(progress.percent, 100, { label: 'Жалпы жетістік' })}
             <div class="stat-grid" style="margin-top:12px">
               <div class="stat"><b>${progress.lessons.done}/${progress.lessons.total}</b><small>сабақ</small></div>
               <div class="stat"><b>${progress.words.mastered}</b><small>меңгерілген сөз</small></div>
