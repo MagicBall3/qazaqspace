@@ -81,7 +81,7 @@ export function mediaView() {
         <div class="card-head" style="margin-bottom:2px">
           <div style="flex:1;min-width:0">
             <b style="display:block;font-size:.95rem">${esc(work.title || 'Атаусыз жұмыс')}</b>
-            <span class="work-date">${formatDate(work.updatedAt || work.createdAt)}${work.migrated ? ' · ескі прототиптен' : ''}</span>
+            <span class="work-date">${formatDate(work.updatedAt || work.createdAt)}${work.migrated ? ' · ескі нұсқадан' : ''}</span>
           </div>
           <span class="tag">${esc(work.templateId ? (data.mediaIndex.get(work.templateId)?.titleKz || 'Шаблон') : 'Еркін жұмыс')}</span>
         </div>
@@ -113,7 +113,7 @@ export function mediaView() {
         <div class="grid cols-3" style="margin-bottom:16px">
           <div class="card"><div class="stat"><b>${data.media.length}</b><small>шаблон</small></div></div>
           <div class="card"><div class="stat"><b>${works.length}</b><small>сақталған жұмыс</small></div></div>
-          <div class="card"><div class="stat"><b>local</b><small>сақтау орны</small></div></div>
+          <div class="card"><div class="stat"><b>осы құрылғы</b><small>сақтау орны</small></div></div>
         </div>
 
         <div class="notice info" style="margin-bottom:18px">

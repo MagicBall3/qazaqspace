@@ -125,7 +125,7 @@ function formatWord(word) {
 }
 
 function replyBadge(level) {
-  return `<span class="tag warn">ДЕМО · ${esc(levelLabel(level))}</span>`;
+  return `<span class="tag warn">Оқу режимі · ${esc(levelLabel(level))}</span>`;
 }
 
 export function demoReply(rawText, { level = 1 } = {}) {
@@ -144,17 +144,17 @@ export function demoReply(rawText, { level = 1 } = {}) {
         <b>Себебі:</b> ${esc(fix.reason)}<br>
         <small>Бұл — сөздік негізіндегі жауап.</small>`;
     }
-    return `Демо-режимде мен тек дайын мысалдарды тексеремін. Мысалы:<br>
+    return `Мен қазір дайын оқу мысалдарымен жұмыс істеймін. Мысалы:<br>
       «Исправь: Мен мектеп барамын»<br>
       «Исправь: Мен үй барамын»<br>
-      <small>Басқа мәтінді тексеру үшін нақты ИИ қажет.</small>`;
+      <small>Басқа мәтінді тексеру үшін көмекшінің мүмкіндігі шектеулі.</small>`;
   }
 
   /* Перевод / значение слова --------------------------------------------- */
   if (/(перев|аудар|мағына|значит|что такое|нені білдіреді|сөз)/.test(text)) {
     const word = findWord(rest) || findWord(text);
     if (word) {
-      return `${formatWord(word)}<br><small>Бұл жазба Master Vocabulary деректерінен алынды.</small>`;
+      return `${formatWord(word)}<br><small>Бұл жазба оқу сөздігінен алынды.</small>`;
     }
     return `Бұл сөз сөздікте табылмады. Көмекші шағын оқу сөздігімен жұмыс істейді.<br>
       Қол жетімді мысалдар: «Что значит кітап?», «Переведи: Мен мектепке барамын», «Что такое әже?»`;
@@ -230,5 +230,5 @@ export function demoReply(rawText, { level = 1 } = {}) {
     • «Исправь: Мен мектеп барамын»<br>
     • «Объясни -ке»<br>
     • «Придумай диалог в магазине»<br><br>
-    <small>Нақты ИИ қосылғанда бұл жауаптар серверлік API арқылы беріледі.</small>`;
+    <small>Бұл — оқу сөздігі негізіндегі жауаптар.</small>`;
 }

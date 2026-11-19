@@ -45,7 +45,7 @@ export function vocabView() {
         <div class="section-head">
           <div class="eyebrow">${icon('cards')} Master Vocabulary</div>
           <h2>Орталық сөздік</h2>
-          <p>Барлық сөздер бір JSON дереккөзінен алынады: <span class="mono">data/vocabulary.json</span>. Сабақтар, ойындар және мәтіндер осы деректерді пайдаланады.</p>
+          <p>Барлық сөздер бір орталық сөздіктен алынады. Сабақтар, ойындар және мәтіндер осы сөздікті пайдаланады.</p>
         </div>
 
         <div class="grid cols-3" style="margin-bottom:16px">
@@ -58,9 +58,9 @@ export function vocabView() {
           ${icon('info')}
           <div>
             <strong>Мәртебелер:</strong>
-            <span class="tag needs_review">needs_review</span> — тексеру қажет ·
-            <span class="tag verified">verified</span> — мұғалім тексерді ·
-            <span class="tag rejected">rejected</span> — қабылданбады.
+            <span class="tag needs_review">Тексеру қажет</span> — мұғалім тексеруі қажет ·
+            <span class="tag verified">Тексерілді</span> — мұғалім тексерді ·
+            <span class="tag rejected">Қабылданбады</span> — қабылданбады.
             Қазіргі жазбалардың барлығы дерлік тексеруге жіберілген.
           </div>
         </div>
@@ -94,9 +94,9 @@ export function vocabView() {
               <label for="vocabStatus">Мәртебе</label>
               <select id="vocabStatus">
                 <option value="all">Барлық мәртебе</option>
-                <option value="needs_review">needs_review</option>
-                <option value="verified">verified</option>
-                <option value="rejected">rejected</option>
+                <option value="needs_review">Тексеру қажет</option>
+                <option value="verified">Тексерілді</option>
+                <option value="rejected">Қабылданбады</option>
               </select>
             </div>
           </div>
@@ -116,8 +116,7 @@ export function vocabView() {
         <div class="notice warn" style="margin-top:16px">
           ${icon('warn')}
           <div>
-            Сөздікке жаңа жазба қосу үшін <span class="mono">data/vocabulary.json</span> файлын өңдеңіз.
-            Интерфейс кодын өзгерту қажет емес. Жаңа жазбаларға <b>needs_review</b> мәртебесін қойыңыз.
+            Сөздіктегі жазбалардың мәртебелерін мұғалім басқарады. Жаңа сөздер алдымен «Тексеру қажет» мәртебесін алады.
           </div>
         </div>
       </div>`,

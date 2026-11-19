@@ -26,7 +26,7 @@ function completionHtml(record) {
       <div>
         <strong>Сабақ аяқталды.</strong>
         ${total ? `Нәтиже: ${score} / ${total}.` : ''}
-        ${record.migrated ? ' Бұл нәтиже ескі прототиптен көшірілді, қайта тапсыруға болады.' : ''}
+        ${record.migrated ? ' Бұл нәтиже ескі нұсқадан көшірілді, қайта тапсыруға болады.' : ''}
       </div>
     </div>`;
 }

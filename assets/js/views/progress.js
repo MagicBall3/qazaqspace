@@ -68,7 +68,7 @@ export function progressView() {
           <p>Бұл көрсеткіштер тек сіздің нақты әрекеттеріңізден есептеледі: аяқталған сабақтар, ойын нәтижелері, мәдениет тапсырмалары және сақталған жұмыстар.</p>
         </div>
 
-        ${storage.available ? '' : `<div class="notice warn" style="margin-bottom:14px">${icon('warn')}<div><strong>Сақтау шектеулі.</strong> Браузер localStorage жазуға рұқсат бермеді. Прогресс тек ағымдағы сессияда сақталуы мүмкін.</div></div>`}
+        ${storage.available ? '' : `<div class="notice warn" style="margin-bottom:14px">${icon('warn')}<div><strong>Сақтау шектеулі.</strong> Прогресс тек осы сессияда сақталуы мүмкін.</div></div>`}
 
         <section class="card overall-card" style="margin-bottom:14px">
           <div class="overall-ring" style="--p:${progress.percent}" role="img" aria-label="Жалпы прогресс ${progress.percent}%">

@@ -47,7 +47,7 @@ export function cultureView() {
         <div class="grid cols-3" style="margin-bottom:16px">
           <div class="card"><div class="stat"><b>${done}/${data.culture.length}</b><small>карточка аяқталды</small></div></div>
           <div class="card"><div class="stat"><b>${data.cultureThemes.length}</b><small>тақырыптық бағыт</small></div></div>
-          <div class="card"><div class="stat"><b>needs_review</b><small>барлық жазба мәртебесі</small></div></div>
+          <div class="card"><div class="stat"><b>Тексеру қажет</b><small>барлық жазба мәртебесі</small></div></div>
         </div>
 
         <div class="chips" style="margin-bottom:16px" data-theme-filter-row>${themeFilters}</div>
@@ -59,7 +59,7 @@ export function cultureView() {
           <div>
             <strong>Дереккөздер туралы.</strong>
             Мұндағы мәтіндер жалпыға белгілі мәдени және тарихи деректерге негізделген, бірақ әзірге
-            <span class="tag needs_review">needs_review</span> мәртебесінде. Мұғалім қосымша дереккөздермен салыстырып тексеруі қажет.
+            «Тексеру қажет» мәртебесінде. Мұғалім қосымша дереккөздермен салыстырып тексеруі қажет.
           </div>
         </div>
       </div>`,

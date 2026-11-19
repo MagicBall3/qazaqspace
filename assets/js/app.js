@@ -128,7 +128,7 @@ function toggleTheme() {
 
 /* Рендер ----------------------------------------------------------------- */
 
-function showFatal(message) {
+function showFatal() {
   if (!viewRoot) return;
   viewRoot.innerHTML = `
     <div class="page">
@@ -136,15 +136,15 @@ function showFatal(message) {
         ${icon('warn')}
         <div>
           <strong>Қосымша жүктелмеді / Приложение не загрузилось.</strong><br>
-          ${esc(message)}
+          Оқу материалдарын жүктеу мүмкін болмады. Интернет байланысын тексеріп, қайта көріңіз.
         </div>
       </div>
       <div class="card" style="margin-top:14px">
         <h3>Не істеу керек / Что делать</h3>
         <ol class="small" style="padding-left:20px;line-height:1.7;color:var(--muted)">
-          <li>Сайтты жергілікті сервер арқылы ашыңыз: <span class="mono">python -m http.server 5173</span></li>
-          <li>Браузерде <span class="mono">http://localhost:5173</span> мекенжайын ашыңыз.</li>
-          <li>Егер қате қайталанса, <span class="mono">data/*.json</span> файлдарының дұрыстығын тексеріңіз.</li>
+          <li>Сайтты жергілікті веб-сервер арқылы ашыңыз.</li>
+          <li>Браузерде сайттың мекенжайын ашыңыз.</li>
+          <li>Егер қате қайталанса, кейін қайта көріңіз.</li>
         </ol>
       </div>
     </div>`;
@@ -180,7 +180,7 @@ function renderView(resolved) {
     view = handler(params, query);
   } catch (error) {
     console.error('[QAZAQ SPACE] view render failed', error);
-    showFatal(messageOf(error));
+    showFatal();
     return;
   }
 
@@ -211,11 +211,6 @@ function renderView(resolved) {
 
   window.scrollTo({ top: 0, behavior: 'auto' });
   closeMenu();
-}
-
-function messageOf(error) {
-  if (!error) return 'Белгісіз қате';
-  return error.message || String(error);
 }
 
 /* Маршруттар ------------------------------------------------------------- */
@@ -285,7 +280,7 @@ function bindGlobalActions() {
   }
 
   window.addEventListener('qazaqspace:storage-error', () => {
-    toast('Прогресті сақтау мүмкін болмады. Браузер localStorage-қа рұқсат бермейді.', 'error', 5000);
+    toast('Прогресті сақтау мүмкін болмады.', 'error', 5000);
   });
 }
 
@@ -303,11 +298,7 @@ async function boot() {
     await loadData();
   } catch (error) {
     console.error('[QAZAQ SPACE] data loading failed', error);
-    if (location.protocol === 'file:') {
-      showFatal('Браузер ES-модульдерді және JSON файлдарын file:// протоколы арқылы жүктеуге рұқсат бермейді.');
-    } else {
-      showFatal(messageOf(error));
-    }
+    showFatal();
     return;
   }
 
@@ -324,7 +315,7 @@ async function boot() {
       renderView(resolved);
     } catch (error) {
       console.error('[QAZAQ SPACE] route failed', error);
-      showFatal(messageOf(error));
+      showFatal();
     }
   });
 

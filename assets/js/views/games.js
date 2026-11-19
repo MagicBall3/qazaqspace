@@ -80,7 +80,7 @@ export function gamesView(params, query) {
           ${icon('warn')}
           <div>
             <strong>QR-квест туралы:</strong> QR-кодтарды мұғалім өзі басып шығарады.
-            Кодтар <span class="mono">docs/TEACHER_GUIDE.md</span> файлында сипатталған. Кодсыз станцияны да өтуге болады, бірақ бонус қосылмайды.
+            Кодсыз станцияны да өтуге болады, бірақ бонус қосылмайды.
           </div>
         </div>
       </div>`

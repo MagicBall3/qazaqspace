@@ -52,13 +52,13 @@ export function lessonsView() {
           ${icon('warn')}
           <div>
             <strong>Материалдар тексерілуде.</strong>
-            Барлық сабақтар мен сөздік жазбалары <span class="tag needs_review">needs_review</span> мәртебесінде.
-            Мұғалім мазмұнды тексеріп, деректер файлындағы мәртебені <b>verified</b> етіп өзгерте алады.
+            Барлық сабақтар мен сөздік жазбалары қазір «Тексеру қажет» мәртебесінде.
+            Мұғалім мазмұнды тексеріп, мәртебені «Тексерілді» етіп өзгерте алады.
           </div>
         </div>
 
         ${progressSummary(completed)}
-        ${groups || emptyState({ title: 'Сабақтар жоқ', text: 'Деректер файлын тексеріңіз.' })}
+        ${groups || emptyState({ title: 'Сабақтар жоқ', text: 'Сабақтар әзірге қосылмаған.' })}
 
         <div class="card">
           <div class="card-head">
