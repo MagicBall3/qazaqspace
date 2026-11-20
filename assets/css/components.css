@@ -1098,3 +1098,50 @@ select option { background: var(--surface-solid); color: var(--text); }
 .word-row[hidden] {
   display: none !important;
 }
+
+/* About page */
+
+.about-page {
+  padding-bottom: 24px;
+}
+
+.about-intro {
+  margin-top: 16px;
+}
+
+.about-person {
+  min-width: 0;
+}
+
+.about-person .card-head {
+  align-items: center;
+  min-height: 76px;
+}
+
+.about-person .card-head h3 {
+  overflow-wrap: anywhere;
+}
+
+.about-section {
+  padding-top: 14px;
+  margin-top: 14px;
+  border-top: 1px solid var(--border);
+}
+
+.about-section h4 {
+  margin-bottom: 6px;
+  color: var(--text);
+}
+
+.about-section p {
+  color: var(--muted);
+  font-size: .9rem;
+  line-height: 1.65;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 560px) {
+  .about-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
