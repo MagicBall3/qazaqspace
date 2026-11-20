@@ -230,6 +230,7 @@ function registerRoutes() {
   route('media/new/:templateId', (params) => mediaEditorView({ templateId: params.templateId }));
   route('media/work/:workId', (params) => mediaEditorView({ workId: params.workId }));
   route('progress', () => progressView());
+  route('about', () => aboutView());
   setNotFound(() => ({
     nav: 'home',
     title: 'Бет табылмады',
