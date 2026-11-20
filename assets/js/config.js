@@ -57,6 +57,12 @@ export const NAV_SECTIONS = [
       { href: '#/progress', key: 'progress', label: 'Менің жетістігім', icon: 'chart' }
     ]
   }
+  {
+  label: 'Ақпарат',
+  items: [
+    { href: '#/about', key: 'about', label: 'О нас', icon: 'info' }
+  ]
+}
 ];
 
 export const BOTTOM_NAV = [
