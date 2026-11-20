@@ -156,7 +156,7 @@ function showFatal() {
     </div>`;
 }
 
-function renderView(resolved) {
+async function renderView(resolved) {
   if (!viewRoot) return;
   const { handler, params, query } = resolved;
 
