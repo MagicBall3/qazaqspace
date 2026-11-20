@@ -56,7 +56,7 @@ export const NAV_SECTIONS = [
     items: [
       { href: '#/progress', key: 'progress', label: 'Менің жетістігім', icon: 'chart' }
     ]
-  }
+  },
   {
   label: 'Ақпарат',
   items: [
