@@ -17,6 +17,13 @@ import { cultureView, cultureCardView } from './views/culture.js';
 import { mediaView, mediaEditorView } from './views/media.js';
 import { vocabView } from './views/vocab.js';
 import { progressView } from './views/progress.js';
+import { initAuth } from './auth.js';
+
+import {
+  leaderboardView,
+  mediaFeedView,
+  myPostsView
+} from './views/community.js';
 
 const viewRoot = document.getElementById('view');
 const sideNav = document.getElementById('sideNav');
