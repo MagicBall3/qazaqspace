@@ -17,6 +17,7 @@ import { cultureView, cultureCardView } from './views/culture.js';
 import { mediaView, mediaEditorView } from './views/media.js';
 import { vocabView } from './views/vocab.js';
 import { progressView } from './views/progress.js';
+import { aboutView } from './views/about.js';
 
 const viewRoot = document.getElementById('view');
 const sideNav = document.getElementById('sideNav');
