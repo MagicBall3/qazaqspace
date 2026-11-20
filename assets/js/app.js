@@ -183,7 +183,7 @@ async function renderView(resolved) {
 
   let view;
   try {
-    view = handler(params, query);
+    view = await handler(params, query);
   } catch (error) {
     console.error('[QAZAQ SPACE] view render failed', error);
     showFatal();
