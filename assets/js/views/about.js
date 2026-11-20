@@ -5,14 +5,14 @@ const PEOPLE = [
   {
     icon: 'user-round',
     role: 'Создатель проекта',
-    name: 'Укажите своё имя',
-    description: 'Разработчик и автор идеи QAZAQ SPACE.'
+    name: 'Юлдошев М. Ф.',
+    description: 'Разработчик.'
   },
   {
     icon: 'graduation-cap',
-    role: 'Заместитель директора',
-    name: 'Укажите ФИО завуча',
-    description: 'Укажите краткую информацию.'
+    role: 'учитель казахского языка и литературы',
+    name: 'Мухаметжанова Ж. К.',
+    description: 'автор идеи QAZAQ SPACE.'
   }
 ];
 
