@@ -17,6 +17,13 @@ import { cultureView, cultureCardView } from './views/culture.js';
 import { mediaView, mediaEditorView } from './views/media.js';
 import { vocabView } from './views/vocab.js';
 import { progressView } from './views/progress.js';
+import { initAuth } from './auth.js';
+
+import {
+  leaderboardView,
+  mediaFeedView,
+  myPostsView
+} from './views/community.js';
 
 const viewRoot = document.getElementById('view');
 const sideNav = document.getElementById('sideNav');
@@ -149,7 +156,7 @@ function showFatal() {
     </div>`;
 }
 
-function renderView(resolved) {
+async function renderView(resolved) {
   if (!viewRoot) return;
   const { handler, params, query } = resolved;
 
@@ -176,7 +183,7 @@ function renderView(resolved) {
 
   let view;
   try {
-    view = handler(params, query);
+    view = await handler(params, query);
   } catch (error) {
     console.error('[QAZAQ SPACE] view render failed', error);
     showFatal();
@@ -226,9 +233,12 @@ function registerRoutes() {
   route('culture', () => cultureView());
   route('culture/:id', (params) => cultureCardView(params));
   route('media', () => mediaView());
+  route('media/feed', () => mediaFeedView());
+  route('media/my', () => myPostsView());
   route('media/new/:templateId', (params) => mediaEditorView({ templateId: params.templateId }));
   route('media/work/:workId', (params) => mediaEditorView({ workId: params.workId }));
   route('progress', () => progressView());
+  route('leaderboard', () => leaderboardView());
   setNotFound(() => ({
     nav: 'home',
     title: 'Бет табылмады',
@@ -289,6 +299,7 @@ async function boot() {
   buildNav();
   bindGlobalActions();
   registerRoutes();
+  initAuth();
 
   if (!viewRoot) return;
 
