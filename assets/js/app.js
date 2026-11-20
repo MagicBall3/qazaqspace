@@ -226,9 +226,12 @@ function registerRoutes() {
   route('culture', () => cultureView());
   route('culture/:id', (params) => cultureCardView(params));
   route('media', () => mediaView());
+  route('media/feed', () => mediaFeedView());
+  route('media/my', () => myPostsView());
   route('media/new/:templateId', (params) => mediaEditorView({ templateId: params.templateId }));
   route('media/work/:workId', (params) => mediaEditorView({ workId: params.workId }));
   route('progress', () => progressView());
+  route('leaderboard', () => leaderboardView());
   setNotFound(() => ({
     nav: 'home',
     title: 'Бет табылмады',
@@ -289,6 +292,7 @@ async function boot() {
   buildNav();
   bindGlobalActions();
   registerRoutes();
+  initAuth();
 
   if (!viewRoot) return;
 

@@ -4,6 +4,7 @@
  * Никакой серверной регистрации и персональных данных.
  */
 import { CONFIG } from './config.js';
+import { syncLessonCompletion, syncGameResult } from './supabase.js';
 
 const DEFAULT_STATE = {
   version: 2,
@@ -190,6 +191,7 @@ export function completeLesson(id, score, total) {
     };
   }
   commit();
+  syncLessonCompletion(id, score, total, 20);
   return isNew;
 }
 
@@ -234,6 +236,7 @@ export function recordGame(gameId, score) {
     lastScore: numeric
   };
   commit();
+  syncGameResult(gameId, numeric, state.games[gameId].best, 10);
   return { isNewBest, best: state.games[gameId].best };
 }
 

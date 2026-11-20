@@ -54,7 +54,8 @@ export const NAV_SECTIONS = [
   {
     label: 'Жеке',
     items: [
-      { href: '#/progress', key: 'progress', label: 'Менің жетістігім', icon: 'chart' }
+      { href: '#/progress', key: 'progress', label: 'Менің жетістігім', icon: 'chart' },
+      { href: '#/leaderboard', key: 'leaderboard', label: 'Рейтинг', icon: 'chart' }
     ]
   }
 ];
