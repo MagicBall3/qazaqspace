@@ -1095,3 +1095,6 @@ select option { background: var(--surface-solid); color: var(--text); }
   .qw-key { min-width: 20px; height: 36px; font-size: .65rem; padding: 0 1px; }
   .qw-key-wide { min-width: 30px; font-size: .6rem; }
 }
+.word-row[hidden] {
+  display: none !important;
+}
