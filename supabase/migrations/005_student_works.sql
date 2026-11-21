@@ -2,32 +2,40 @@
 -- 005_student_works.sql
 -- Ученические работы: сдача учеником, проверка преподавателем.
 --
--- ЗАЧЕМ ОТДЕЛЬНАЯ ТАБЛИЦА
---   MEDIA SPACE — публичная лента с модерацией. Ученическая работа проверяется
---   учителем, оценивается и не публикуется. Разные статусы, разные права,
---   разная аудитория — смешивать нельзя.
---
--- МОДЕЛЬ ПРАВ
---   Ученик    : создаёт и правит своё, видит только своё.
---   Учитель   : видит всё (is_moderator), ставит оценку и комментарий
---               исключительно через RPC review_student_work().
+-- МОДЕЛЬ
+--   Ученик    : создаёт черновик и отправляет на проверку, видит только своё.
+--   Учитель   : видит всё (is_moderator), ставит оценку исключительно через
+--               RPC review_student_work().
 --   Посетитель: ничего.
 --
--- ИСПРАВЛЯЕТ
---   В предыдущей редакции оценку можно было менять обычным UPDATE строки:
---   GRANT UPDATE (grade, ...) был выдан всей роли authenticated, а запрет
---   держался только на триггере. Теперь прямой доступ к полям оценки
---   отозван у всех, включая модератора; единственный путь — RPC.
+-- ЗАЩИТА ОТ ПОДДЕЛКИ ПРОВЕРКИ
+--   Раньше у authenticated был табличный GRANT INSERT, а триггер проверял
+--   только UPDATE. Ученик мог одной вставкой создать работу с
+--   grade = 100, teacher_comment = «отлично», reviewed_by = себя и
+--   status = 'reviewed'. Теперь:
+--     * INSERT выдан только на колонки автора и содержимого;
+--     * BEFORE INSERT триггер принудительно обнуляет поля оценки и
+--       запрещает статусы reviewed/returned при создании.
 --
--- КАК ОТЛИЧАЕТСЯ ВЫЗОВ RPC ОТ ОБЫЧНОГО UPDATE
---   review_student_work() выставляет транзакционный флаг
---   qazaqspace.review = 'on' через set_config(..., is_local := true).
---   Триггер видит флаг и не откатывает поля оценки. Для любого другого
---   UPDATE флага нет, поля оценки восстанавливаются из OLD.
+-- ЗАЩИТА ОТ ПОТЕРИ РЕЗУЛЬТАТА ПРОВЕРКИ
+--   Проверенная работа (reviewed/returned) становится read-only для автора:
+--   он не может ни изменить содержимое, ни вернуть её в submitted.
+--   Изменить статус после проверки может только преподаватель через
+--   review_student_work().
+--
+-- РАЗДЕЛЕНИЕ ПРАВ
+--   Поля grade, teacher_comment, reviewed_at, reviewed_by не входят ни в
+--   один GRANT. Их меняет только review_student_work() (SECURITY DEFINER
+--   обходит привилегии), а триггер отличает этот вызов от обычного UPDATE
+--   по транзакционному флагу qazaqspace.review.
+--
+-- ФЛАГ И АВТОРИЗАЦИЯ
+--   Триггер пропускает поля оценки только если флаг выставлен И вызов
+--   идёт от модератора. Одного флага недостаточно: даже если GUC удалось
+--   бы выставить посторонним способом, без роли модератора обхода нет.
 --
 -- ПОСЛЕДСТВИЯ
 --   - Таблица новая, существующие данные не затрагиваются.
---   - Преподаватель обязан использовать RPC, прямой UPDATE не сработает.
 -- ============================================================================
 
 -- --- Таблица --------------------------------------------------------------
@@ -62,21 +70,71 @@ CREATE TRIGGER trg_student_works_updated
   BEFORE UPDATE ON public.student_works
   FOR EACH ROW EXECUTE FUNCTION public.set_updated_at();
 
--- --- Триггер: защита полей оценки -----------------------------------------
-CREATE OR REPLACE FUNCTION public.enforce_work_review_rules()
+-- --- Разрешённые переходы статуса -----------------------------------------
+-- draft     -> submitted, draft
+-- submitted -> draft (отзыв), submitted
+-- reviewed  -> только преподаватель
+-- returned  -> только преподаватель
+CREATE OR REPLACE FUNCTION public.student_work_status_transition(
+  p_from TEXT,
+  p_to   TEXT
+)
+RETURNS BOOLEAN
+LANGUAGE sql
+IMMUTABLE
+SET search_path = public, pg_temp
+AS $$
+  SELECT p_from IN ('draft', 'submitted') AND p_to IN ('draft', 'submitted');
+$$;
+
+-- --- BEFORE INSERT: ученик не создаёт проверенную работу -------------------
+CREATE OR REPLACE FUNCTION public.enforce_work_insert()
 RETURNS TRIGGER
 LANGUAGE plpgsql
 SECURITY DEFINER
 SET search_path = public, pg_temp
 AS $$
 BEGIN
-  IF TG_OP <> 'UPDATE' THEN
-    RETURN NEW;
+  IF auth.uid() IS NULL THEN
+    RAISE EXCEPTION 'NOT_AUTHENTICATED' USING ERRCODE = '28000';
   END IF;
 
-  -- Вызов из review_student_work(): поля уже выставлены сервером.
-  IF current_setting('qazaqspace.review', true) = 'on' THEN
-    NEW.updated_at := now();
+  -- Автор всегда сам пользователь, подделать нельзя.
+  NEW.author_id := auth.uid();
+
+  -- Поля проверки при вставке всегда пустые.
+  NEW.grade           := NULL;
+  NEW.teacher_comment := NULL;
+  NEW.reviewed_at     := NULL;
+  NEW.reviewed_by     := NULL;
+
+  -- Новая работа не может быть сразу проверенной.
+  IF NEW.status NOT IN ('draft', 'submitted') THEN
+    NEW.status := 'draft';
+  END IF;
+
+  NEW.created_at := now();
+  NEW.updated_at := now();
+  RETURN NEW;
+END;
+$$;
+
+DROP TRIGGER IF EXISTS trg_student_works_insert ON public.student_works;
+CREATE TRIGGER trg_student_works_insert
+  BEFORE INSERT ON public.student_works
+  FOR EACH ROW EXECUTE FUNCTION public.enforce_work_insert();
+
+-- --- BEFORE UPDATE: поля оценки и статус после проверки -------------------
+CREATE OR REPLACE FUNCTION public.enforce_work_review_rules()
+RETURNS TRIGGER
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = public, pg_temp
+AS $$
+DECLARE
+  v_review_bypass BOOLEAN;
+BEGIN
+  IF TG_OP <> 'UPDATE' THEN
     RETURN NEW;
   END IF;
 
@@ -84,19 +142,36 @@ BEGIN
     RAISE EXCEPTION 'NOT_AUTHENTICATED' USING ERRCODE = '28000';
   END IF;
 
-  -- Любая другая правка: поля оценки не меняются.
-  IF NEW.grade             IS DISTINCT FROM OLD.grade
-     OR NEW.teacher_comment IS DISTINCT FROM OLD.teacher_comment
-     OR NEW.reviewed_by    IS DISTINCT FROM OLD.reviewed_by
-     OR NEW.reviewed_at    IS DISTINCT FROM OLD.reviewed_at
-     OR NEW.status         = 'reviewed' THEN
-    NEW.grade           := OLD.grade;
-    NEW.teacher_comment := OLD.teacher_comment;
-    NEW.reviewed_by     := OLD.reviewed_by;
-    NEW.reviewed_at     := OLD.reviewed_at;
-    IF OLD.status IS DISTINCT FROM 'reviewed' THEN
-      NEW.status := OLD.status;
-    END IF;
+  -- Обход только для модератора, вызвавшего review_student_work в этой
+  -- транзакции. Флаг без роли модератора ничего не даёт.
+  v_review_bypass :=
+       current_setting('qazaqspace.review', true) = 'on'
+       AND public.is_moderator();
+
+  IF v_review_bypass THEN
+    NEW.updated_at := now();
+    RETURN NEW;
+  END IF;
+
+  -- Поля проверки не меняются никем, кроме review_student_work.
+  NEW.grade           := OLD.grade;
+  NEW.teacher_comment := OLD.teacher_comment;
+  NEW.reviewed_by     := OLD.reviewed_by;
+  NEW.reviewed_at     := OLD.reviewed_at;
+
+  -- После проверки автор работу не редактирует и не «отзывает» результат.
+  IF OLD.status IN ('reviewed', 'returned') THEN
+    NEW.status := OLD.status;
+    NEW.title      := OLD.title;
+    NEW.content    := OLD.content;
+    NEW.work_type  := OLD.work_type;
+    NEW.updated_at := now();
+    RETURN NEW;
+  END IF;
+
+  -- До проверки автор переводит работу только между draft и submitted.
+  IF NOT public.student_work_status_transition(OLD.status, NEW.status) THEN
+    NEW.status := OLD.status;
   END IF;
 
   NEW.updated_at := now();
@@ -124,6 +199,7 @@ DECLARE
   v_uid    UUID := auth.uid();
   v_rows   INT;
   v_status TEXT;
+  v_author UUID;
 BEGIN
   IF v_uid IS NULL THEN
     RAISE EXCEPTION 'NOT_AUTHENTICATED' USING ERRCODE = '28000';
@@ -133,6 +209,11 @@ BEGIN
   END IF;
   IF p_grade IS NULL OR p_grade < 0 OR p_grade > 100 THEN
     RAISE EXCEPTION 'GRADE_OUT_OF_RANGE' USING ERRCODE = '22023';
+  END IF;
+
+  SELECT author_id INTO v_author FROM public.student_works WHERE id = p_work_id;
+  IF v_author IS NULL THEN
+    RAISE EXCEPTION 'WORK_NOT_FOUND' USING ERRCODE = 'P0002';
   END IF;
 
   v_status := CASE WHEN p_grade >= 50 THEN 'reviewed' ELSE 'returned' END;
@@ -153,12 +234,13 @@ BEGIN
     RAISE EXCEPTION 'WORK_NOT_FOUND' USING ERRCODE = 'P0002';
   END IF;
 
-  RETURN JSONB_BUILD_OBJECT('success', true, 'grade', p_grade, 'status', v_status);
+  RETURN JSONB_BUILD_OBJECT('success', true, 'grade', p_grade, 'status', v_status,
+                            'author_id', v_author);
 END;
 $$;
 
 REVOKE ALL ON FUNCTION public.review_student_work(BIGINT, INT, TEXT) FROM PUBLIC, anon;
-GRANT EXECUTE ON FUNCTION public.review_student_work(BIGINT, INT, TEXT) TO authenticated;
+REVOKE ALL ON FUNCTION public.student_work_status_transition(TEXT, TEXT) FROM PUBLIC, anon;
 
 -- --- RLS ------------------------------------------------------------------
 ALTER TABLE public.student_works ENABLE ROW LEVEL SECURITY;
@@ -173,23 +255,30 @@ CREATE POLICY "works_select_moderator" ON public.student_works
 
 DROP POLICY IF EXISTS "works_insert_own" ON public.student_works;
 CREATE POLICY "works_insert_own" ON public.student_works
-  FOR INSERT TO authenticated WITH CHECK (author_id = auth.uid());
+  FOR INSERT TO authenticated WITH CHECK (auth.uid() = author_id);
 
 DROP POLICY IF EXISTS "works_update_own" ON public.student_works;
 CREATE POLICY "works_update_own" ON public.student_works
   FOR UPDATE TO authenticated
-  USING (author_id = auth.uid()) WITH CHECK (author_id = auth.uid());
+  USING (author_id = auth.uid()) WITH CHECK (auth.uid() = author_id);
 
 DROP POLICY IF EXISTS "works_delete_own" ON public.student_works;
 CREATE POLICY "works_delete_own" ON public.student_works
   FOR DELETE TO authenticated USING (author_id = auth.uid());
 
--- --- Права -----------------------------------------------------------------
+-- --- Права: column-level, без полей оценки --------------------------------
 REVOKE ALL ON public.student_works FROM PUBLIC, anon;
+REVOKE INSERT, UPDATE, DELETE ON public.student_works FROM authenticated;
 
--- Ученик: содержимое и статус сдачи. Полей оценки в гранте нет.
-GRANT SELECT, INSERT, DELETE ON public.student_works TO authenticated;
-GRANT UPDATE (title, content, work_type, status) ON public.student_works TO authenticated;
+-- Вставка: только автор и содержимое. grade/teacher_comment/reviewed_*
+-- отсутствуют в списке, поэтому получают значения по умолчанию (NULL),
+-- а триггер дополнительно их обнуляет.
+GRANT SELECT ON public.student_works TO authenticated;
+GRANT INSERT (author_id, title, content, work_type, status)
+  ON public.student_works TO authenticated;
+GRANT UPDATE (title, content, work_type, status)
+  ON public.student_works TO authenticated;
+GRANT DELETE ON public.student_works TO authenticated;
 
 -- grade, teacher_comment, reviewed_at, reviewed_by не выданы никому:
--- только review_student_work() (SECURITY DEFINER обходит привилегии).
+-- единственный путь — review_student_work() (SECURITY DEFINER).

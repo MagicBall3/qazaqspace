@@ -15,6 +15,37 @@ export function esc(value) {
     .replace(/'/g, '&#39;');
 }
 
+/**
+ * Безопасный URL для атрибутов src/href из пользовательских данных.
+ *
+ * esc() экранирует кавычки, но не мешает схеме javascript: или data:.
+ * Для <img src> современные браузеры такие схемы не исполняют, однако
+ * полагаться на это не стоит: пропускаем только http и https, всё
+ * остальное превращаем в пустую строку.
+ */
+export function safeUrl(value, { allowRelative = false } = {}) {
+  const raw = String(value ?? '').trim();
+  if (!raw) return '';
+  // Запрещаем управляющие символы, которыми маскируют схему.
+  if (/[\u0000-\u001f\u007f]/.test(raw)) return '';
+  if (allowRelative && raw.startsWith('/') && !raw.startsWith('//')) return raw;
+  try {
+    const url = new URL(raw, window.location.origin);
+    return url.protocol === 'http:' || url.protocol === 'https:' ? url.href : '';
+  } catch (error) {
+    return '';
+  }
+}
+
+/**
+ * Первая буква имени для аватара-заглушки. Возвращает только безопасный
+ * символ: всё, кроме букв и цифр, заменяется на «?».
+ */
+export function initial(value) {
+  const ch = String(value ?? '').trim().charAt(0);
+  return /[\p{L}\p{N}]/u.test(ch) ? ch.toUpperCase() : '?';
+}
+
 export function icon(name, className = '') {
   return `<svg class="${className}" aria-hidden="true"><use href="#i-${name}"></use></svg>`;
 }

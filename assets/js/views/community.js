@@ -2,7 +2,7 @@ import {
   getCurrentUser, getCurrentProfile, fetchLeaderboard, fetchMyRank,
   fetchFeed, fetchMyPosts, createPost, updatePost, deletePost,
 } from '../supabase.js';
-import { esc, icon, toast, confirmDialog, emptyState, navigate } from '../ui.js';
+import { esc, safeUrl, initial, icon, toast, confirmDialog, emptyState, navigate } from '../ui.js';
 import { authModal } from '../auth.js';
 
 const POST_TYPES = {
@@ -35,9 +35,10 @@ export async function leaderboardView() {
     const profile = entry.profile || {};
     const name = esc(profile.display_name || profile.username || 'Қолданушы');
     const username = profile.username ? `@${esc(profile.username)}` : '';
-    const avatar = profile.avatar_url
-      ? `<img class="lb-avatar" src="${esc(profile.avatar_url)}" alt="">`
-      : `<span class="lb-avatar lb-avatar-fallback">${esc((profile.display_name || 'Q')[0].toUpperCase())}</span>`;
+    const avatarUrl = safeUrl(profile.avatar_url);
+    const avatar = avatarUrl
+      ? `<img class="lb-avatar" src="${esc(avatarUrl)}" alt="">`
+      : `<span class="lb-avatar lb-avatar-fallback">${esc(initial(profile.display_name))}</span>`;
     const isMe = entry.user_id === currentUserId;
     const medals = ['🥇', '🥈', '🥉'];
     const medal = index < 3 ? medals[index] : `#${index + 1}`;
@@ -109,7 +110,7 @@ export async function myPostsView() {
     ${!posts.length ? emptyState({ icon: 'media', title: 'Жазбалар жоқ', text: 'Алғашқы жазбаңызды қосыңыз.', action: '<a class="btn" href="#/media">Бастау</a>' })
     : `<div class="media-feed">${posts.map(post => `
       <article class="media-post-card">
-        <div class="media-post-head"><span class="tag ${statusTags[post.status] || ''}">${statusLabels[post.status] || post.status}</span><span class="tiny muted">${new Date(post.created_at).toLocaleDateString('kk-KZ')}</span></div>
+        <div class="media-post-head"><span class="tag ${statusTags[post.status] || ''}">${esc(statusLabels[post.status] || post.status)}</span><span class="tiny muted">${new Date(post.created_at).toLocaleDateString('kk-KZ')}</span></div>
         <h3>${esc(post.title)}</h3>
         <div class="btn-row" style="margin-top:8px">
           <button class="btn btn-ghost btn-sm" data-edit="${post.id}">Өңдеу</button>

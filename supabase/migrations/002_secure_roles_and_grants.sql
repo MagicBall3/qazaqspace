@@ -93,52 +93,114 @@ REVOKE TRUNCATE, REFERENCES, TRIGGER ON public.media_posts   FROM authenticated;
 -- user_stats: клиент не пишет вообще. Только SECURITY DEFINER функции.
 REVOKE INSERT, UPDATE, DELETE ON public.user_stats FROM authenticated;
 
+-- user_progress и game_results: клиент не пишет напрямую.
+-- Все изменения идут через complete_lesson() и record_game_result(), которые
+-- являются SECURITY DEFINER и обходят привилегии. Прямая запись позволила бы
+-- ученику выставить себе любой score, status или plays в обход серверной
+-- логики, поэтому INSERT/UPDATE/DELETE отозваны полностью.
+-- Чтение своих строк остаётся (нужно для загрузки прогресса при входе).
+REVOKE INSERT, UPDATE, DELETE ON public.user_progress FROM authenticated;
+REVOKE INSERT, UPDATE, DELETE ON public.game_results  FROM authenticated;
+GRANT  SELECT ON public.user_progress TO authenticated;
+GRANT  SELECT ON public.game_results  TO authenticated;
+
+-- profiles: прямой INSERT клиенту не нужен и опасен.
+-- Профиль создаёт триггер handle_new_user на auth.users (SECURITY DEFINER).
+-- Если триггер не сработал, клиент вызывает ensure_profile() ниже —
+-- идемпотентную функцию с проверкой auth.uid().
+REVOKE INSERT ON public.profiles FROM PUBLIC, anon, authenticated;
+
+-- --- ensure_profile: безопасное восстановление профиля --------------------
+CREATE OR REPLACE FUNCTION public.ensure_profile(
+  p_username     TEXT DEFAULT NULL,
+  p_display_name TEXT DEFAULT NULL
+)
+RETURNS JSONB
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = public, pg_temp
+AS $$
+DECLARE
+  v_uid     UUID := auth.uid();
+  v_base    TEXT;
+  v_name    TEXT;
+  v_display TEXT;
+  v_rows    INT;
+BEGIN
+  IF v_uid IS NULL THEN
+    RAISE EXCEPTION 'NOT_AUTHENTICATED' USING ERRCODE = '28000';
+  END IF;
+
+  -- Username приходит от клиента: санитизируем до безопасного набора.
+  v_base := regexp_replace(
+    COALESCE(NULLIF(btrim(COALESCE(p_username, '')), ''),
+             'user_' || substr(v_uid::text, 1, 8)),
+    '[^a-zA-Z0-9_]', '', 'g');
+  v_base := COALESCE(NULLIF(v_base, ''), 'user_' || substr(v_uid::text, 1, 8));
+
+  v_display := COALESCE(
+    NULLIF(btrim(COALESCE(p_display_name, '')), ''),
+    v_base);
+
+  INSERT INTO public.profiles (id, username, display_name)
+  VALUES (v_uid, v_base, v_display)
+  ON CONFLICT (id) DO NOTHING;
+
+  GET DIAGNOSTICS v_rows = ROW_COUNT;
+
+  -- username занят другим аккаунтом: добавляем суффикс из UUID.
+  IF v_rows = 0 AND NOT EXISTS (SELECT 1 FROM public.profiles WHERE id = v_uid) THEN
+    INSERT INTO public.profiles (id, username, display_name)
+    VALUES (v_uid, left(v_base, 24) || '_' || substr(v_uid::text, 1, 4), v_display)
+    ON CONFLICT (id) DO NOTHING;
+  END IF;
+
+  INSERT INTO public.user_stats (user_id) VALUES (v_uid)
+  ON CONFLICT (user_id) DO NOTHING;
+
+  RETURN JSONB_BUILD_OBJECT('success', true, 'username',
+                            (SELECT username FROM public.profiles WHERE id = v_uid));
+END;
+$$;
+
+REVOKE ALL ON FUNCTION public.ensure_profile(TEXT, TEXT) FROM PUBLIC, anon;
+GRANT EXECUTE ON FUNCTION public.ensure_profile(TEXT, TEXT) TO authenticated;
+
 -- --- Политики существующих таблиц -----------------------------------------
 -- Раньше они были созданы вручную и жили только в базе. Здесь они описаны
 -- явно и идемпотентно, чтобы набор миграций был воспроизводимым.
 
 -- profiles: читают все авторизованные (нужно для ленты и рейтинга),
--- пишет только владелец.
+-- пишет только владелец. INSERT-политика убрана: профиль создаёт триггер
+-- handle_new_user или RPC ensure_profile(), прямой вставке клиента больше
+-- ничего не нужно.
 DROP POLICY IF EXISTS "profiles_select_all" ON public.profiles;
 CREATE POLICY "profiles_select_all" ON public.profiles
   FOR SELECT TO authenticated USING (true);
 
 DROP POLICY IF EXISTS "profiles_insert_self" ON public.profiles;
-CREATE POLICY "profiles_insert_self" ON public.profiles
-  FOR INSERT TO authenticated WITH CHECK (auth.uid() = id);
 
 DROP POLICY IF EXISTS "profiles_update_self" ON public.profiles;
 CREATE POLICY "profiles_update_self" ON public.profiles
   FOR UPDATE TO authenticated
   USING (auth.uid() = id) WITH CHECK (auth.uid() = id);
 
--- user_progress: только своё.
+-- user_progress: только чтение своих строк. INSERT/UPDATE больше не нужны —
+-- запись идёт через complete_lesson() (SECURITY DEFINER).
 DROP POLICY IF EXISTS "progress_select_self" ON public.user_progress;
 CREATE POLICY "progress_select_self" ON public.user_progress
   FOR SELECT TO authenticated USING (auth.uid() = user_id);
 
 DROP POLICY IF EXISTS "progress_insert_self" ON public.user_progress;
-CREATE POLICY "progress_insert_self" ON public.user_progress
-  FOR INSERT TO authenticated WITH CHECK (auth.uid() = user_id);
-
 DROP POLICY IF EXISTS "progress_update_self" ON public.user_progress;
-CREATE POLICY "progress_update_self" ON public.user_progress
-  FOR UPDATE TO authenticated
-  USING (auth.uid() = user_id) WITH CHECK (auth.uid() = user_id);
 
--- game_results: только своё.
+-- game_results: только чтение своих строк, запись через record_game_result().
 DROP POLICY IF EXISTS "games_select_self" ON public.game_results;
 CREATE POLICY "games_select_self" ON public.game_results
   FOR SELECT TO authenticated USING (auth.uid() = user_id);
 
 DROP POLICY IF EXISTS "games_insert_self" ON public.game_results;
-CREATE POLICY "games_insert_self" ON public.game_results
-  FOR INSERT TO authenticated WITH CHECK (auth.uid() = user_id);
-
 DROP POLICY IF EXISTS "games_update_self" ON public.game_results;
-CREATE POLICY "games_update_self" ON public.game_results
-  FOR UPDATE TO authenticated
-  USING (auth.uid() = user_id) WITH CHECK (auth.uid() = user_id);
 
 -- user_stats: читают все авторизованные (рейтинг), записи нет вообще —
 -- очки меняются только функциями из 003.

@@ -140,6 +140,45 @@ if grant_grade:
                 f'student_works: "{forbidden}" выдан в GRANT UPDATE — '
                 f'ученик сможет менять оценку')
 
+# --- INSERT-права и защита INSERT-триггерами -------------------------------
+# Таблицы, куда клиент может вставлять строки, обязаны иметь BEFORE INSERT
+# триггер, иначе клиент задаёт служебные поля (автора, оценку, статус).
+tables_with_insert = set()
+for m in re.finditer(
+        r'GRANT\s+INSERT\s*(?:\([^)]*\))?\s*ON public\.(\w+)\s+TO\s+([^;]+);',
+        all_text, re.I):
+    table, roles = m.group(1), m.group(2)
+    if 'authenticated' in roles:
+        tables_with_insert.add(table)
+
+for t in sorted(tables_with_insert):
+    has_trigger = re.search(
+        rf'CREATE TRIGGER\s+\w+\s+BEFORE INSERT ON public\.{t}\b', all_text, re.I)
+    if not has_trigger:
+        problems.append(
+            f'{t}: клиент может вставлять строки, но нет BEFORE INSERT триггера — '
+            f'служебные поля (author_id, статус, оценка) не защищены')
+
+    # табличный INSERT (без списка колонок) на таблице с проверяемыми полями
+    if re.search(
+            rf'GRANT\s+INSERT\s+ON public\.{t}\s+TO authenticated', all_text, re.I):
+        notes.append(
+            f'{t}: табличный GRANT INSERT — убедитесь, что все служебные '
+            f'колонки перекрыты триггером')
+
+# --- Защита полей, задающих авторство и проверку ---------------------------
+SENSITIVE_COLUMNS = {
+    'student_works': ('grade', 'teacher_comment', 'reviewed_by', 'reviewed_at'),
+}
+for table, cols in SENSITIVE_COLUMNS.items():
+    ins = re.search(
+        rf'GRANT\s+INSERT\s*\(([^)]*)\)\s+ON public\.{table}', all_text, re.I)
+    if ins:
+        for c in cols:
+            if re.search(rf'\b{c}\b', ins.group(1)):
+                problems.append(
+                    f'{table}: "{c}" разрешён к вставке клиенту')
+
 print('Проверено файлов:', len(FILES))
 print('Порядок:', ' -> '.join(f.name.split("_")[0] for f in FILES))
 print()

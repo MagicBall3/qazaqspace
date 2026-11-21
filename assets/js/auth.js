@@ -1,5 +1,5 @@
 import { supabase, signIn, signUp, signInWithGoogle, signOut, resetPassword, onAuthChange, getCurrentUser, getCurrentProfile } from './supabase.js';
-import { toast } from './ui.js';
+import { esc, safeUrl, initial, toast } from './ui.js';
 
 export function authModal() {
   const root = document.createElement('div');
@@ -84,14 +84,19 @@ export async function showUserMenu() {
   if (!user) { await authModal(); return; }
   const root = document.createElement('div');
   root.className = 'user-menu';
-  const avatar = profile?.avatar_url ? `<img src="${profile.avatar_url}" alt="">` : (profile?.display_name?.[0] || 'Q').toUpperCase();
+  const avatarUrl = safeUrl(profile?.avatar_url);
+  const avatar = avatarUrl
+    ? `<img src="${esc(avatarUrl)}" alt="">`
+    : initial(profile?.display_name);
+  const displayName = esc(profile?.display_name || profile?.username || 'Қолданушы');
+  const username = esc(profile?.username || '');
   root.innerHTML = `
     <div class="user-menu-overlay">
       <div class="user-menu-card">
         <button type="button" class="user-menu-close" aria-label="Жабу">✕</button>
         <div class="user-avatar">${avatar}</div>
-        <h3>${profile?.display_name || profile?.username || 'Қолданушы'}</h3>
-        <p class="muted">@${profile?.username || ''}</p>
+        <h3>${displayName}</h3>
+        <p class="muted">@${username}</p>
         <button type="button" class="btn btn-ghost" data-user-action="profile">Профильді өңдеу</button>
         <button type="button" class="btn btn-danger" data-user-action="logout">Шығу</button>
       </div>
